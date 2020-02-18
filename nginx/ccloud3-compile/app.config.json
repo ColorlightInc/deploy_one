@@ -1,0 +1,7 @@
+{
+    "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
+    "sideNav": {
+      "expandedSidenav": true,
+      "preserveState": true
+    }
+}
