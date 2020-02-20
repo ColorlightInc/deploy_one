@@ -721,6 +721,7 @@
         "SEARCH": {
             "SERACH_PLACEHOLDER": "Rechercher dans le Cloud",
             "AUTHOR": "Auteur",
+            "MODIFIED": "Le temps",
             "UPLOAD_TIME": "Heure de création",
             "STATUS": "Type",
             "RESET": "Réinitialiser",
@@ -1449,6 +1450,7 @@
             "STATUS": "Statut",
             "AUTHOR": "Auteur",
             "CREATE_TIME": "Heure de création",
+            "MODIFIED": "Temps de modification",
             "CURRENT_SELECTEDS": "Sélections actuelles:",
             "EXCEEDED_MAX_LENGTH": "Autoriser jusqu'à 100 programmes"
         },

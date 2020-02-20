@@ -6,7 +6,13 @@ file:
   corPort: 8888
   server-url: http://192.168.102.102
 system:
-  version: 3.2.6
+  version: 3.2.8
+clt:
+  email:
+    from: ${spring.mail.username}
+    cc: ${spring.mail.username}
+    default-title: Colorlight盒子监控警报
+    default-string-context: 您的盒子上报数据出现异常，请检查！
 authentication:
   # 双因子认证密钥发行商
   2faSecretIssuer: colorlightcloud
@@ -56,6 +62,14 @@ spring:
     multipart:
       max-file-size: 200MB
       enabled: true
+  mail:
+    host: smtp.qq.com
+    username: 2995519898@qq.com
+    password: qoidfvfyciuhddfe
+    properties:
+      mail:
+        smtp:
+          auth: true
   thymeleaf:
     cache: false
   boot:

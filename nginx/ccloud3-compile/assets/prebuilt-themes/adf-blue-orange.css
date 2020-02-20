@@ -4519,7 +4519,6 @@ ul > li > form-field > .adf-focus .adf-label {
     position: relative;
     overflow-y: hidden;
     overflow-x: hidden;
-    z-index: 1;
     background-color: #fafafa;
     display: flex;
     flex-direction: row;

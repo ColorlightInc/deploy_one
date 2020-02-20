@@ -745,6 +745,7 @@
         "SEARCH": {
             "SERACH_PLACEHOLDER": "搜索",
             "AUTHOR": "作者",
+            "MODIFIED": "修改时间",
             "UPLOAD_TIME": "上传时间",
             "STATUS": "类型",
             "RESET": "重置",
@@ -1489,6 +1490,7 @@
             "STATUS": "状态",
             "AUTHOR": "作者",
             "CREATE_TIME": "创建时间",
+            "MODIFIED": "修改时间",
             "CURRENT_SELECTEDS": "当前选中：",
             "EXCEEDED_MAX_LENGTH": "最多允许100个节目"
         },
