@@ -11199,6 +11199,28 @@ CREATE TABLE `wp_users`  (
   INDEX `user_nicename`(`user_nicename`) USING BTREE,
   INDEX `user_email`(`user_email`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5727 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for wp_group_program
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_group_program`;
+CREATE TABLE `wp_group_program`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `groupId` bigint(20) UNSIGNED NOT NULL,
+  `programId` bigint(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `index_gid_pid`(`groupId`, `programId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4048 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for wp_terminal_program
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_terminal_program`;
+CREATE TABLE `wp_terminal_program`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `terminalId` bigint(20) UNSIGNED NOT NULL,
+  `programId` bigint(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `index_tid_pid`(`terminalId`, `programId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10726 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
 

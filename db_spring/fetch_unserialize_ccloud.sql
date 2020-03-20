@@ -20,3 +20,19 @@ CREATE TABLE `wp_log_operation`  (
   `result` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 12624 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `wp_group_program`;
+CREATE TABLE `wp_group_program`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `groupId` bigint(20) UNSIGNED NOT NULL,
+  `programId` bigint(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `index_gid_pid`(`groupId`, `programId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4048 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `wp_terminal_program`;
+CREATE TABLE `wp_terminal_program`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `terminalId` bigint(20) UNSIGNED NOT NULL,
+  `programId` bigint(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `index_tid_pid`(`terminalId`, `programId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10726 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

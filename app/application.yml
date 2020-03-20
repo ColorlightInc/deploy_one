@@ -82,6 +82,9 @@ spring:
         instance:
           #service-url: http://192.168.1.70:8090   # 告诉服务器本地地址
           prefer-ip: true
+  request:
+    check:
+      timeout: 10000  #重复请求过滤的session过期时间，单位毫秒
 mybatis:
   config-location: classpath:/mybatis/mybatis-config.xml
   mapper-locations: classpath*:/mapping/*.xml
@@ -90,17 +93,14 @@ mybatis:
 logging:
   level:
     root: WARN
-    web:  DEBUG
+    web:  WARN
     org:
       springframework:
-        security: DEBUG
-        web: ERROR
+        security: WARN
+        web: WARN
     com:
       example:
-        one:
-          dao:
-            UserMapper: WARN
-            CommentMapper: WARN
+        one: INFO
   file: logs/spring-boot-logging.log
 management:
   # 端点健康情况，默认值"never"，设置为"always"可以显示硬盘使用情况和线程情况
@@ -114,3 +114,6 @@ management:
     web:
       exposure:
         include: '*'
+device:
+  report:
+    time: 200000
