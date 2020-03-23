@@ -8,6 +8,16 @@
 3. `sudo ./unserialize_ccloud.sh`
 
 ## 修改记录
+> ***2020年3月23日***
+>> `deploy_one_cloud.sh`
+>>> 运行one-mysql后增加睡眠300s,等待one-mysql初始化
+
+>> `nginx/myconf.conf`
+>>> 增加天气请求转发
+
+>> `nginx/ssl_myconf.conf`
+>>> 增加雅虎天气请求转发
+
 > ***2020年3月20日***
 >> `application.yml`
 >>> - 增加`device.report.time`

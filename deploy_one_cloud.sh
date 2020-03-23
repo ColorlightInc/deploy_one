@@ -90,6 +90,7 @@ nginx -g 'daemon off;' >/dev/null 2>&1
 sleep 5
 
 echo "Initialize the database ... It could take around 5 mins to init the database.."
+sleep 300
 
 docker exec -i one-mysql mysql -u root -pcolorlight <<< "source /var/lib/mysql/spring.sql"
 
