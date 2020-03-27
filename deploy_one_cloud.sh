@@ -90,9 +90,23 @@ nginx -g 'daemon off;' >/dev/null 2>&1
 sleep 5
 
 echo "Initialize the database ... It could take around 5 mins to init the database.."
+sleep 300
 
 docker exec -i one-mysql mysql -u root -pcolorlight <<< "source /var/lib/mysql/spring.sql"
 
+docker run --restart=always -d --log-opt max-size=100M \
+-v $deploy_path/unserialize/php.ini:/usr/local/etc/php/php.ini \
+-v $deploy_path/unserialize/www.conf:/usr/local/etc/php-fpm.d/www.conf  \
+--network one-nw --name php  hanxiaoxin/ccloud_fastcgi:v2
+
+sleep 1
+echo "start to parse program relationships data...wait..."
+docker exec -i php php < $deploy_path/unserialize/spring_parse_program_relationships_table.php
+sleep 1
+
+docker stop php
+sleep 1
+echo "success: install completed."
 #PASSWORD: colorlight
 #mysql> source /var/lib/mysql/spring.sql
 #mysql> exit
