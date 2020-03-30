@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: one-redis
+  dubbo:
+    registry: zookeeper://one-zk:2181
+    protocol:
+      name: dubbo
+      port: 20886
+    provider:
+      timeout: 20000
+  redis:
+    database: 2
+    #host: one-redis-db
+    host: one-redis-db
+    port: 6379
+    password:
+    timeout: 3000 # 连接超时时间
+#    lettuce:
+#      pool:
+#        max-idle: 100 #最小空闲连接
+#        max-active: 300 #最大连接数
+#        max-wait: 5000 #最大阻塞时间
+server:
+  port: 8180
+  tomcat:
+    uri-encoding: UTF-8
+logging:
+  level:
+    root: WARN
+    web:  WARN
+    com:
+      example:
+        one:
+          redis:
+            service:
+              term: INFO
+  file: logs/spring-boot-logging.log
