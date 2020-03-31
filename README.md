@@ -8,6 +8,24 @@
 3. `sudo ./unserialize_ccloud.sh`
 
 ## 修改记录
+> ***2020年3月30日***
+>> `deploy_one_cloud.sh`
+>>> 删除睡眠300s，增加重启one-mysql
+
+>> `ws/application.yml`
+>>> 增加websocket配置文件
+
+>> `redis/application.yml`
+>>> 增加redis配置文件 
+
+>> unserialize
+>>> - 修改节目中间表转换脚本,增加一种新格式的转换: {"index":"id"}
+>>> - `unserialize/ccloud_parse_program_relationships_table.php`
+>>> - `unserialize/spring_parse_program_relationships_table.php`
+
+
+
+
 > ***2020年3月23日***
 >> `deploy_one_cloud.sh`
 >>> 运行one-mysql后增加睡眠300s,等待one-mysql初始化
