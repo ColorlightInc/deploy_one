@@ -11221,6 +11221,37 @@ CREATE TABLE `wp_terminal_program`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `index_tid_pid`(`terminalId`, `programId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10726 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for device_info
+-- ----------------------------
+DROP TABLE IF EXISTS `device_info`;
+CREATE TABLE `device_info` (
+                               `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                               `post_id` bigint(20) DEFAULT NULL,
+                               `shop_code` varchar(60) DEFAULT NULL,
+                               `province` text,
+                               `shop_name` text,
+                               `device_location` text,
+                               `width` int(11) DEFAULT NULL,
+                               `height` int(11) DEFAULT NULL,
+                               `network_status` int(11) DEFAULT NULL,
+                               `install_date` varchar(60) DEFAULT NULL,
+                               `offline_days` int(11) DEFAULT 0,
+                               `total_offline_days` int(11) DEFAULT 0,
+                               PRIMARY KEY (`ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb4;
+-- ----------------------------
+-- Table structure for device_status
+-- ----------------------------
+DROP TABLE IF EXISTS `device_status`;
+CREATE TABLE `device_status` (
+                                 `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+                                 `post_id` bigint(20) NOT NULL COMMENT '终端 ID',
+                                 `offline_utc` varchar(20) NOT NULL COMMENT '离线时间',
+                                 `online_utc` varchar(20) NOT NULL COMMENT '上线时间',
+                                 PRIMARY KEY (`ID`),
+                                 KEY `post_id` (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
