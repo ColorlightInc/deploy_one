@@ -1,3 +1,4 @@
+use `ccloud`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -101,11 +102,9 @@ CREATE TABLE `device_info`  (
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 210 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-UpdateGps();
 
-SET FOREIGN_KEY_CHECKS = 1;
-
-
+DROP PROCEDURE IF EXISTS `UpdateGps`;
+delimiter //
 CREATE DEFINER=`root`@`%` PROCEDURE `UpdateGps`()
 BEGIN
 	declare i int;
@@ -132,3 +131,8 @@ BEGIN
 	end while;
 
 END
+//
+
+Call UpdateGps();
+
+SET FOREIGN_KEY_CHECKS = 1;
