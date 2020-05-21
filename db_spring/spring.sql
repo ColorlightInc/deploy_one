@@ -97,6 +97,9 @@ CREATE TABLE `wp_clt_gps0`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -114,6 +117,9 @@ CREATE TABLE `wp_clt_gps1`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -131,6 +137,9 @@ CREATE TABLE `wp_clt_gps10`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -148,6 +157,9 @@ CREATE TABLE `wp_clt_gps100`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -165,6 +177,9 @@ CREATE TABLE `wp_clt_gps101`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -182,6 +197,9 @@ CREATE TABLE `wp_clt_gps102`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -199,6 +217,9 @@ CREATE TABLE `wp_clt_gps103`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -216,6 +237,9 @@ CREATE TABLE `wp_clt_gps104`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -233,6 +257,9 @@ CREATE TABLE `wp_clt_gps105`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -250,6 +277,9 @@ CREATE TABLE `wp_clt_gps106`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -267,6 +297,9 @@ CREATE TABLE `wp_clt_gps107`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -284,6 +317,9 @@ CREATE TABLE `wp_clt_gps108`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -301,6 +337,9 @@ CREATE TABLE `wp_clt_gps109`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -318,6 +357,9 @@ CREATE TABLE `wp_clt_gps11`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -335,6 +377,9 @@ CREATE TABLE `wp_clt_gps110`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -352,6 +397,9 @@ CREATE TABLE `wp_clt_gps111`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -369,6 +417,9 @@ CREATE TABLE `wp_clt_gps112`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -386,6 +437,9 @@ CREATE TABLE `wp_clt_gps113`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -403,6 +457,9 @@ CREATE TABLE `wp_clt_gps114`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -420,6 +477,9 @@ CREATE TABLE `wp_clt_gps115`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -437,6 +497,9 @@ CREATE TABLE `wp_clt_gps116`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -454,6 +517,9 @@ CREATE TABLE `wp_clt_gps117`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -471,6 +537,9 @@ CREATE TABLE `wp_clt_gps118`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -488,6 +557,9 @@ CREATE TABLE `wp_clt_gps119`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -505,6 +577,9 @@ CREATE TABLE `wp_clt_gps12`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -522,6 +597,9 @@ CREATE TABLE `wp_clt_gps120`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -539,6 +617,9 @@ CREATE TABLE `wp_clt_gps121`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -556,6 +637,9 @@ CREATE TABLE `wp_clt_gps122`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -573,6 +657,9 @@ CREATE TABLE `wp_clt_gps123`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -590,6 +677,9 @@ CREATE TABLE `wp_clt_gps124`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -607,6 +697,9 @@ CREATE TABLE `wp_clt_gps125`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -624,6 +717,9 @@ CREATE TABLE `wp_clt_gps126`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -641,6 +737,9 @@ CREATE TABLE `wp_clt_gps127`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -658,6 +757,9 @@ CREATE TABLE `wp_clt_gps13`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -675,6 +777,9 @@ CREATE TABLE `wp_clt_gps14`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -692,6 +797,9 @@ CREATE TABLE `wp_clt_gps15`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -709,6 +817,9 @@ CREATE TABLE `wp_clt_gps16`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -726,6 +837,9 @@ CREATE TABLE `wp_clt_gps17`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -743,6 +857,9 @@ CREATE TABLE `wp_clt_gps18`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -760,6 +877,9 @@ CREATE TABLE `wp_clt_gps19`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -777,6 +897,9 @@ CREATE TABLE `wp_clt_gps2`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -794,6 +917,9 @@ CREATE TABLE `wp_clt_gps20`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -811,6 +937,9 @@ CREATE TABLE `wp_clt_gps21`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -828,6 +957,9 @@ CREATE TABLE `wp_clt_gps22`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -845,6 +977,9 @@ CREATE TABLE `wp_clt_gps23`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -862,6 +997,9 @@ CREATE TABLE `wp_clt_gps24`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -879,6 +1017,9 @@ CREATE TABLE `wp_clt_gps25`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -896,6 +1037,9 @@ CREATE TABLE `wp_clt_gps26`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -913,6 +1057,9 @@ CREATE TABLE `wp_clt_gps27`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -930,6 +1077,9 @@ CREATE TABLE `wp_clt_gps28`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -947,6 +1097,9 @@ CREATE TABLE `wp_clt_gps29`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -964,6 +1117,9 @@ CREATE TABLE `wp_clt_gps3`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -981,6 +1137,9 @@ CREATE TABLE `wp_clt_gps30`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -998,6 +1157,9 @@ CREATE TABLE `wp_clt_gps31`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1015,6 +1177,9 @@ CREATE TABLE `wp_clt_gps32`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1032,6 +1197,9 @@ CREATE TABLE `wp_clt_gps33`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1049,6 +1217,9 @@ CREATE TABLE `wp_clt_gps34`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1066,6 +1237,9 @@ CREATE TABLE `wp_clt_gps35`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1083,6 +1257,9 @@ CREATE TABLE `wp_clt_gps36`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1100,6 +1277,9 @@ CREATE TABLE `wp_clt_gps37`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1117,6 +1297,9 @@ CREATE TABLE `wp_clt_gps38`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1134,6 +1317,9 @@ CREATE TABLE `wp_clt_gps39`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1151,6 +1337,9 @@ CREATE TABLE `wp_clt_gps4`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1168,6 +1357,9 @@ CREATE TABLE `wp_clt_gps40`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1185,6 +1377,9 @@ CREATE TABLE `wp_clt_gps41`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1202,6 +1397,9 @@ CREATE TABLE `wp_clt_gps42`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1219,6 +1417,9 @@ CREATE TABLE `wp_clt_gps43`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1236,6 +1437,9 @@ CREATE TABLE `wp_clt_gps44`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1253,6 +1457,9 @@ CREATE TABLE `wp_clt_gps45`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1270,6 +1477,9 @@ CREATE TABLE `wp_clt_gps46`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1287,6 +1497,9 @@ CREATE TABLE `wp_clt_gps47`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1304,6 +1517,9 @@ CREATE TABLE `wp_clt_gps48`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1321,6 +1537,9 @@ CREATE TABLE `wp_clt_gps49`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1338,6 +1557,9 @@ CREATE TABLE `wp_clt_gps5`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1355,6 +1577,9 @@ CREATE TABLE `wp_clt_gps50`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1372,6 +1597,9 @@ CREATE TABLE `wp_clt_gps51`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1389,6 +1617,9 @@ CREATE TABLE `wp_clt_gps52`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1406,6 +1637,9 @@ CREATE TABLE `wp_clt_gps53`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1423,6 +1657,9 @@ CREATE TABLE `wp_clt_gps54`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1440,6 +1677,9 @@ CREATE TABLE `wp_clt_gps55`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1457,6 +1697,9 @@ CREATE TABLE `wp_clt_gps56`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1474,6 +1717,9 @@ CREATE TABLE `wp_clt_gps57`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1491,6 +1737,9 @@ CREATE TABLE `wp_clt_gps58`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1508,6 +1757,9 @@ CREATE TABLE `wp_clt_gps59`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1525,6 +1777,9 @@ CREATE TABLE `wp_clt_gps6`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1542,6 +1797,9 @@ CREATE TABLE `wp_clt_gps60`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1559,6 +1817,9 @@ CREATE TABLE `wp_clt_gps61`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1576,6 +1837,9 @@ CREATE TABLE `wp_clt_gps62`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1593,6 +1857,9 @@ CREATE TABLE `wp_clt_gps63`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1610,6 +1877,9 @@ CREATE TABLE `wp_clt_gps64`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1627,6 +1897,9 @@ CREATE TABLE `wp_clt_gps65`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1644,6 +1917,9 @@ CREATE TABLE `wp_clt_gps66`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1661,6 +1937,9 @@ CREATE TABLE `wp_clt_gps67`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1678,6 +1957,9 @@ CREATE TABLE `wp_clt_gps68`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1695,6 +1977,9 @@ CREATE TABLE `wp_clt_gps69`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1712,6 +1997,9 @@ CREATE TABLE `wp_clt_gps7`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1729,6 +2017,9 @@ CREATE TABLE `wp_clt_gps70`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1746,6 +2037,9 @@ CREATE TABLE `wp_clt_gps71`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1763,6 +2057,9 @@ CREATE TABLE `wp_clt_gps72`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1780,6 +2077,9 @@ CREATE TABLE `wp_clt_gps73`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1797,6 +2097,9 @@ CREATE TABLE `wp_clt_gps74`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1814,6 +2117,9 @@ CREATE TABLE `wp_clt_gps75`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1831,6 +2137,9 @@ CREATE TABLE `wp_clt_gps76`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1848,6 +2157,9 @@ CREATE TABLE `wp_clt_gps77`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1865,6 +2177,9 @@ CREATE TABLE `wp_clt_gps78`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1882,6 +2197,9 @@ CREATE TABLE `wp_clt_gps79`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1899,6 +2217,9 @@ CREATE TABLE `wp_clt_gps8`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1916,6 +2237,9 @@ CREATE TABLE `wp_clt_gps80`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1933,6 +2257,9 @@ CREATE TABLE `wp_clt_gps81`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1950,6 +2277,9 @@ CREATE TABLE `wp_clt_gps82`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1967,6 +2297,9 @@ CREATE TABLE `wp_clt_gps83`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -1984,6 +2317,9 @@ CREATE TABLE `wp_clt_gps84`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2001,6 +2337,9 @@ CREATE TABLE `wp_clt_gps85`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2018,6 +2357,9 @@ CREATE TABLE `wp_clt_gps86`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2035,6 +2377,9 @@ CREATE TABLE `wp_clt_gps87`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2052,6 +2397,9 @@ CREATE TABLE `wp_clt_gps88`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2069,6 +2417,9 @@ CREATE TABLE `wp_clt_gps89`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2086,6 +2437,9 @@ CREATE TABLE `wp_clt_gps9`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2103,6 +2457,9 @@ CREATE TABLE `wp_clt_gps90`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2120,6 +2477,9 @@ CREATE TABLE `wp_clt_gps91`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2137,6 +2497,9 @@ CREATE TABLE `wp_clt_gps92`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2154,6 +2517,9 @@ CREATE TABLE `wp_clt_gps93`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2171,6 +2537,9 @@ CREATE TABLE `wp_clt_gps94`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2188,6 +2557,9 @@ CREATE TABLE `wp_clt_gps95`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2205,6 +2577,9 @@ CREATE TABLE `wp_clt_gps96`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2222,6 +2597,9 @@ CREATE TABLE `wp_clt_gps97`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2239,6 +2617,9 @@ CREATE TABLE `wp_clt_gps98`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
@@ -2256,6 +2637,9 @@ CREATE TABLE `wp_clt_gps99`  (
   `latitude` float(12, 8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `server_time` datetime(0) NOT NULL,
+  `accuracy` float(12, 1) NOT NULL DEFAULT 0.0,
+  `altitude` float(12, 1) NOT NULL DEFAULT 0.0,
+  `speed` float(12, 1) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `monitor_ledid`(`led_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_520_ci ROW_FORMAT = Dynamic;
