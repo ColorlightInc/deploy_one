@@ -69,6 +69,37 @@ CREATE TABLE `wp_program_feature`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `id_programId`(`id`, `post_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 931 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for device_status
+-- ----------------------------
+DROP TABLE IF EXISTS `device_status`;
+CREATE TABLE `device_status`  (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `post_id` bigint(20) NOT NULL COMMENT '终端 ID',
+  `offline_utc` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '离线时间',
+  `online_utc` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '上线时间',
+  PRIMARY KEY (`ID`) USING BTREE,
+  INDEX `post_id`(`post_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+-- ----------------------------
+-- Table structure for device_info
+-- ----------------------------
+DROP TABLE IF EXISTS `device_info`;
+CREATE TABLE `device_info`  (
+  `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `post_id` bigint(20) NULL DEFAULT NULL,
+  `shop_code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `province` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `shop_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `device_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `width` int(11) NULL DEFAULT NULL,
+  `height` int(11) NULL DEFAULT NULL,
+  `network_status` int(11) NULL DEFAULT NULL,
+  `install_date` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `offline_days` int(11) NULL DEFAULT 0,
+  `total_offline_days` int(11) NULL DEFAULT 0,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 210 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 UpdateGps();
 
