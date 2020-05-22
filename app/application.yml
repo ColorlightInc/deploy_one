@@ -117,3 +117,6 @@ management:
 device:
   report:
     time: 200000
+camera-shot:
+  clean:
+    time-range: 10 # 摄像头截图自动清理的时间范围，单位天

@@ -64,9 +64,9 @@ CREATE TABLE `wp_program_feature`  (
   `mvh_media_id` int(10) NOT NULL COMMENT '节目中视频最大高对应的素材Id',
   `mvw_media_id` int(10) NOT NULL COMMENT '节目中视频最大宽对应的素材Id',
   `mvr_media_id` int(10) NOT NULL COMMENT '节目中视频最大分辨率对应的素材Id',
-  `mvh_media_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
-  `mvw_media_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
-  `mvr_media_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
+  `mvh_media_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
+  `mvw_media_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
+  `mvr_media_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目中视频最大高对应的素材名',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `id_programId`(`id`, `post_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 931 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
