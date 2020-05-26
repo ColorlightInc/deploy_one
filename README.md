@@ -13,7 +13,7 @@
 >>> 增加代理获取截图的配置
 
 > ***2020年5月21日***
->> 新增`db_spring/update_lining_gps_tag.sql`
+>> 新增`db_spring/update_lining_gps_tag_ccloud.sql`
 >>> - 增加李宁表`device_status`,`device_info`
 >>> - 增加素材标签表`wp_media_custom_tag_record`,`wp_custom_tag`
 >>> - 增加素材分享表`wp_share_relationships`,`wp_media_share_record`
