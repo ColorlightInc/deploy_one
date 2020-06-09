@@ -8,6 +8,23 @@
 3. `sudo ./unserialize_ccloud.sh`
 
 ## 修改记录
+> ***2020年5月22日***
+>> `nginx/ssl_myconf.conf`,`nginx/myconf.conf`
+>>> 增加代理获取截图的配置
+
+> ***2020年5月21日***
+>> 新增`db_spring/update_lining_gps_tag_ccloud.sql`
+>>> - 增加李宁表`device_status`,`device_info`
+>>> - 增加素材标签表`wp_media_custom_tag_record`,`wp_custom_tag`
+>>> - 增加素材分享表`wp_share_relationships`,`wp_media_share_record`
+>>> - 增加节目特性表`wp_program_feature`
+>>> - 增减GPS分表字段
+
+>> 新增`add_tables_lining_gps_tag_share_ccloud.sh`建表脚本
+
+>> `app/application.yml`增减配置项
+>>> `camera-shot.clean.time-range: 10`
+
 > ***2020年3月30日***
 >> `deploy_one_cloud.sh`
 >>> 删除睡眠300s，增加重启one-mysql

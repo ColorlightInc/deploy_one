@@ -91,8 +91,10 @@ echo "Initialize the database ... It could take around 5 mins to init the databa
 sleep 30
 docker restart one-mysql
 sleep 30
-docker exec -i one-mysql mysql -u root -pcolorlight <<< "source /var/lib/mysql/spring.sql"
-
+#docker exec -i one-mysql mysql -u root -pcolorlight <<< "source /var/lib/mysql/spring.sql"
+docker exec -i one-mysql bash -c "mysql -u root -pcolorlight <<< 'source /var/lib/mysql/spring.sql'"
+cp $deploy_path/db_spring/update_lining_gps_tag_spring.sql $deploy_path/mysql/data
+docker exec -i one-mysql bash -c "mysql -u root -pcolorlight <<< 'source /var/lib/mysql/update_lining_gps_tag_spring.sql'"
 sleep 1
 echo "deploy_path=$deploy_path, deploy ip=$ip, port=$port"
 echo "success: install completed."

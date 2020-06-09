@@ -1,0 +1,7 @@
+version: '3.2.8'
+services:
+  one-mysql:
+    ports:
+      - "3306:3306"
+    volumes:
+      - ""

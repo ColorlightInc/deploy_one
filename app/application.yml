@@ -11,7 +11,7 @@ clt:
   email:
     from: ${spring.mail.username}
     cc: ${spring.mail.username}
-    default-title: Colorlight盒子监控警报
+    default-title: Colorlight device alarm
     default-string-context: 您的盒子上报数据出现异常，请检查！
 authentication:
   # 双因子认证密钥发行商
@@ -117,3 +117,6 @@ management:
 device:
   report:
     time: 200000
+camera-shot:
+  clean:
+    time-range: 10 # 摄像头截图自动清理的时间范围，单位天
