@@ -43,7 +43,7 @@ update_images_version()
         -e "s| colorlightwzg/one-nginx*$| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
         -e "s| colorlightwzg/one-ws*$| colorlightwzg/one-ws:${_one_ws_tag}| g" \
         -e "s| colorlightwzg/one-redis*$| colorlightwzg/one-redis:${_one_redis_tag}| g" \
-        ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
+        ${CURR_PATH}/template/docker-compose.yml.template.template > ${CURR_PATH}/docker-compose.yml.template
 }
 
 #read and set configuration
