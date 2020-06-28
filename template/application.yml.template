@@ -3,8 +3,8 @@ file:
   #静态资源对外暴露的访问路径
   staticAccessPath: /wp-content/**
   #跨域端口
-  corPort: ${_port}
-  server-url: ${_address}
+  corPort: 8888
+  server-url: AAAA
 system:
   version: 3.2.8
 clt:

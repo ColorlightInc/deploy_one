@@ -1,6 +1,6 @@
 server {
-  listen ${_port};
-  server_name ${_address};
+  listen 8888;
+  server_name AAAA;
   
   gzip on;
   gzip_comp_level 6;

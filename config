@@ -4,3 +4,11 @@ _address=
 _port=80
 _open_ssl=false
 _port_websocket=8443
+
+#docker services image version
+#docker镜像版本配置
+_one_app=v5.1.10beta
+_one_nginx=v2.5.6-6.24
+_one_redis=v0.9
+_one_ws=v2.0
+_one_mysql=v1.2
