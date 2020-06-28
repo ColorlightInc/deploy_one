@@ -1,7 +1,102 @@
-version: '3.2.8'
+#docker-compose for ccloud in one host without swarm: can't use 'deploy' key
+version: '3.8'
 services:
-  one-mysql:
+  one-zk:
+    image: zookeeper:latest
+    container_name: one-zk
+    privileged: true
+    networks:
+      - one-nw
+    restart: always
+  one-redis-db:
+    image: redis:latest
+    container_name: one-redis-db
+    privileged: true
+    restart: always
     ports:
-      - "3306:3306"
+      - 6379:6379
     volumes:
-      - ""
+      - one_redis_data:/data
+    networks:
+      - one-nw
+    command: redis-server --appendonly yes
+  one-mysql:
+    image: colorlightwzg/one-mysql:v1.2
+    container_name: one-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: colorlight
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+    networks:
+      - one-nw
+    ports:
+      - 3307:3306
+    restart: always
+  one-app:
+    image: colorlightwzg/one-app:v5.1.10beta
+    container_name: one-app
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    volumes:
+      - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads
+      - spring_log:/logs
+      - ./app:/var/lib/app
+    networks:
+      - one-nw
+    depends_on:
+      - one-zk
+      - one-mysql
+    restart: always
+  one-redis:
+    image: colorlightwzg/one-redis:v0.9
+    container_name: one-redis
+    volumes:
+      - spring_redis_log:/logs
+      - ./redis:/var/lib/redis
+    networks:
+      - one-nw
+    depends_on:
+      - one-zk
+      - one-redis-db
+    restart: always
+  one-ws:
+    image: colorlightwzg/one-ws:v2.0
+    container_name: one-ws
+    volumes:
+      - spring_ws_log:/logs
+      - ./ws:/var/lib/app
+    networks:
+      - one-nw
+    depends_on:
+      - one-zk
+    restart: always
+  one-nginx:
+    image: colorlightwzg/one-nginx:v2.0
+    container_name: one-nginx
+    ports:
+      - 443:443
+      - 80:80
+      - 8443:8443
+    volumes:
+      - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads/
+      - nginx_log_data:/var/log/nginx/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/myconf.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/letsencrypt:/etc/letsencrypt
+      - ./nginx/letsencrypt-backups:/var/lib/letsencrypt
+    networks:
+      - one-nw
+    depends_on:
+      - one-zk
+      - one-app
+    restart: always
+networks:
+  one-nw:
+volumes:
+  one_redis_data:
+  spring_uploads_data:
+  spring_log:
+  spring_redis_log:
+  spring_ws_log:
+  nginx_log_data:

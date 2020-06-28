@@ -1,0 +1,6 @@
+#configuration for you apps
+#应用通用配置
+_address=
+_port=80
+_open_ssl=false
+_port_websocket=8443

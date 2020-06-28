@@ -1,13 +1,19 @@
 # deploy_one
 ## 脚本说明
-### 全新系统
-1. `sudo ./deploy_one_cloud.sh ip port`
-### php老数据迁移
-1. `sudo ./deploy_one_cloud.sh ip port`
-2. 挂载旧数据(`uploads` 和 `database`)
-3. `sudo ./unserialize_ccloud.sh`
+1 配置: `config`用户配置文件
+2 安装: `sh install.sh`安装脚本
 
 ## 修改记录
+> ***2020年6月28日***
+>> 重构脚本，使用docker-compose
+>>> `docker-compose.yml` : docker-compose配置文件
+>>> `install.sh` : 应用安装脚本
+>>> `uninstall.sh` : 应用卸载脚本
+>>> `config` : 用户配置脚本
+>>> `docker/install-docker.sh` : docker安装脚本
+>>> `template` : 服务配置文件模板
+
+
 > ***2020年5月22日***
 >> `nginx/ssl_myconf.conf`,`nginx/myconf.conf`
 >>> 增加代理获取截图的配置
