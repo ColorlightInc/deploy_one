@@ -11,8 +11,8 @@ server {
   server_name AAAA;
   
   ssl on;
-  ssl_certificate /etc/letsencrypt/live/wwe.colorlightcloud.com/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/wwe.colorlightcloud.com/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/AAAA/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/AAAA/privkey.pem;
   ssl_session_timeout 10m;
   ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";

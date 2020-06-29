@@ -21,7 +21,7 @@ services:
       - one-nw
     command: redis-server --appendonly yes
   one-mysql:
-    image: colorlightwzg/one-mysql:v1.2
+    image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
     environment:
       MYSQL_ROOT_PASSWORD: colorlight
@@ -34,7 +34,7 @@ services:
       - 3307:3306
     restart: always
   one-app:
-    image: colorlightwzg/one-app:v5.1.10beta
+    image: colorlightwzg/one-app:TAG
     container_name: one-app
     environment:
       SPRING_PROFILES_ACTIVE: prod
@@ -49,7 +49,7 @@ services:
       - one-mysql
     restart: always
   one-redis:
-    image: colorlightwzg/one-redis:v0.9
+    image: colorlightwzg/one-redis:TAG
     container_name: one-redis
     volumes:
       - spring_redis_log:/logs
@@ -61,7 +61,7 @@ services:
       - one-redis-db
     restart: always
   one-ws:
-    image: colorlightwzg/one-ws:v2.0
+    image: colorlightwzg/one-ws:TAG
     container_name: one-ws
     volumes:
       - spring_ws_log:/logs
@@ -72,7 +72,7 @@ services:
       - one-zk
     restart: always
   one-nginx:
-    image: colorlightwzg/one-nginx:v2.5.6-6.24
+    image: colorlightwzg/one-nginx:TAG
     container_name: one-nginx
     ports:
       - 443:443

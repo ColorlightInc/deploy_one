@@ -22,7 +22,7 @@ read_configuration()
     fi
 
     if [ $_open_ssl = 'true' ];then
-        sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${CURR_PATH}/template/ssl_myconf.conf.template > ${CURR_PATH}/nginx/myconf.conf
+        sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|AAAA|${_address}|g" ${CURR_PATH}/template/ssl_myconf.conf.template > ${CURR_PATH}/nginx/myconf.conf
         sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${CURR_PATH}/template/application.yml.template > ${CURR_PATH}/app/application.yml
     else
         sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${CURR_PATH}/template/myconf.conf.template > ${CURR_PATH}/nginx/myconf.conf
@@ -38,12 +38,12 @@ update_images_version()
     _one_ws_tag=`cat config | grep -m 1 _one_ws | awk -F= '{print $2}'`
     _one_mysql_tag=`cat config | grep -m 1 _one_mysql | awk -F= '{print $2}'`
 
-    sed -e "s| colorlightwzg/one-mysql*$| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
-        -e "s| colorlightwzg/one-app*$| colorlightwzg/one-app:${_one_app_tag}| g" \
-        -e "s| colorlightwzg/one-nginx*$| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
-        -e "s| colorlightwzg/one-ws*$| colorlightwzg/one-ws:${_one_ws_tag}| g" \
-        -e "s| colorlightwzg/one-redis*$| colorlightwzg/one-redis:${_one_redis_tag}| g" \
-        ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml.template
+    sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
+        -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
+        -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
+        -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
+        -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
+        ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
 }
 
 #read and set configuration
