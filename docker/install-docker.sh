@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 
 #uninstall outdated docker
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -24,14 +23,15 @@ else
     fi
 fi
 
-docker-compose -v
+docker-compose -v > /dev/null 2>&1
 if [ $? -ne 0 ];then
   #docker_compose install
-  sudo curl -L --fail https://github.com/docker/compose/releases/download/1.26.0/run.sh -o /usr/local/bin/docker-compose
+  sudo curl -L --fail https://github.com/docker/compose/releases/download/1.26.0/run.sh -o /usr/local/bin/docker-compose  > /dev/null 2>&1
   sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-docker-compose -v
+
+docker-compose -v > /dev/null 2>&1
 if [ $? -eq 0 ];then
     echo "docker-compose install success."
 else
