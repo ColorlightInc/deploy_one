@@ -8,6 +8,25 @@ file:
 system:
   version: 3.2.8
 clt:
+  log:
+    isOpen: false
+    mq:
+      group: colorlight
+      topic: LOG_COLLECT
+      nameServer: rmqnamesrv:9876
+      # 生产者配置
+      producer:
+        enable: true
+        # 发送同一类消息的设置为同一个group，保证唯一
+        groupName: ${clt.log.mq.group}
+        # 服务地址
+        namesrvAddr: ${clt.log.mq.nameServer}
+        # 消息最大长度 默认1024*4(4M)
+        maxMessageSize: 4096
+        # 发送消息超时时间,默认3000
+        sendMsgTimeout: 3000
+        # 发送消息失败重试次数，默认2
+        retryTimesWhenSendFailed: 2
   email:
     from: ${spring.mail.username}
     cc: ${spring.mail.username}
