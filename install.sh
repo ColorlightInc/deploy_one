@@ -52,3 +52,4 @@ read_configuration
 update_images_version
 #restart docker-compose
 docker-compose up -d
+echo 'completed'
