@@ -60,6 +60,8 @@ services:
       - one-zk
       - one-redis-db
     restart: always
+    environment:
+      PARAMS: -Xmx128m
   one-ws:
     image: colorlightwzg/one-ws:TAG
     container_name: one-ws
