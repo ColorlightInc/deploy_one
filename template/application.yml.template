@@ -8,6 +8,9 @@ file:
 system:
   version: 3.2.8
 clt:
+  map:
+    heatMap:
+      accuracy: 3
   log:
     isOpen: false
     mq:
