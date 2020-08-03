@@ -8,6 +8,11 @@ services:
     networks:
       - one-nw
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
   one-redis-db:
     image: redis:latest
     container_name: one-redis-db
@@ -20,6 +25,11 @@ services:
     networks:
       - one-nw
     command: redis-server --appendonly yes
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
   one-mysql:
     image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
@@ -33,6 +43,11 @@ services:
     ports:
       - 3307:3306
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
   one-app:
     image: colorlightwzg/one-app:TAG
     container_name: one-app
@@ -48,6 +63,11 @@ services:
       - one-zk
       - one-mysql
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
   one-redis:
     image: colorlightwzg/one-redis:TAG
     container_name: one-redis
@@ -62,6 +82,11 @@ services:
     restart: always
     environment:
       PARAMS: -Xmx128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
   one-ws:
     image: colorlightwzg/one-ws:TAG
     container_name: one-ws
@@ -73,6 +98,11 @@ services:
     depends_on:
       - one-zk
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
   one-nginx:
     image: colorlightwzg/one-nginx:TAG
     container_name: one-nginx
@@ -93,6 +123,11 @@ services:
       - one-zk
       - one-app
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 networks:
   one-nw:
 volumes:
