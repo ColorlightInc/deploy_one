@@ -51,6 +51,12 @@ read_configuration
 #read and reset docker images version
 update_images_version
 #restart docker-compose
+docker-compose up -d
 docker-compose down
 docker-compose up -d
+#暂时保证ws不出现null连接
+docker stop one-nginx
+echo 'waiting for one-app fully activated...'
+sleep 60
+docker restart one-ws one-nginx
 echo 'completed'

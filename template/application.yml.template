@@ -8,6 +8,11 @@ file:
 system:
   version: 3.2.8
 clt:
+  comment:
+    buffer:
+      interval: 5
+      data-length: 100
+      threshold-factor: 0.5
   map:
     heatMap:
       accuracy: 3

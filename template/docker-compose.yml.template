@@ -97,6 +97,7 @@ services:
       - one-nw
     depends_on:
       - one-zk
+      - one-app
     restart: always
     logging:
       driver: "json-file"
@@ -122,6 +123,7 @@ services:
     depends_on:
       - one-zk
       - one-app
+      - one-ws
     restart: always
     logging:
       driver: "json-file"
