@@ -7,7 +7,14 @@ file:
   server-url: AAAA
 system:
   version: 3.2.8
+baidu:
+  apiKey: WDrMfnX0kx3O78lDGqaQAd4vY0BgyqEa
 clt:
+  gps:
+    probe:
+      radius:
+        default: 500
+        min: 200
   comment:
     buffer:
       interval: 5

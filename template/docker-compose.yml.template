@@ -109,8 +109,8 @@ services:
     container_name: one-nginx
     ports:
       - 443:443
-      - 80:80
-      - 8443:8443
+      - PORT_80:80
+      - PORT_WS:8443
     volumes:
       - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads/
       - nginx_log_data:/var/log/nginx/

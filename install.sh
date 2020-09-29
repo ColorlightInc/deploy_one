@@ -38,11 +38,16 @@ update_images_version()
     _one_ws_tag=`cat config | grep -m 1 _one_ws | awk -F= '{print $2}'`
     _one_mysql_tag=`cat config | grep -m 1 _one_mysql | awk -F= '{print $2}'`
 
+    _port=`cat config | grep -m 1 _port | awk -F= '{print $2}'`
+    _port_websocket=`cat config | grep _port_websocket | awk -F= '{print $2}'`
+
     sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
         -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
         -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
         -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
         -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
+        -e "s| - PORT_80:80| - ${_port}:80| g" \
+        -e "s| - PORT_WS:8443| - ${_port}:80| g" \
         ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
 }
 
@@ -52,11 +57,3 @@ read_configuration
 update_images_version
 #restart docker-compose
 docker-compose up -d
-docker-compose down
-docker-compose up -d
-#暂时保证ws不出现null连接
-docker stop one-nginx
-echo 'waiting for one-app fully activated...'
-sleep 60
-docker restart one-ws one-nginx
-echo 'completed'
