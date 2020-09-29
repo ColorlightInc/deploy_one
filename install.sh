@@ -47,7 +47,7 @@ update_images_version()
         -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
         -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
         -e "s| - PORT_80:80| - ${_port}:80| g" \
-        -e "s| - PORT_WS:8443| - ${_port}:80| g" \
+        -e "s| - PORT_WS:8443| - ${_port_websocket}:8443| g" \
         ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
 }
 
