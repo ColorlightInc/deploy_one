@@ -66,8 +66,8 @@ CREATE TABLE `wp_gps_event`  (
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `location_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `gps` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `baidu_gps` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `gps` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `baidu_gps` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 

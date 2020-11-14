@@ -10,7 +10,14 @@ system:
 baidu:
   apiKey: WDrMfnX0kx3O78lDGqaQAd4vY0BgyqEa
 clt:
+  console-log:
+    gps: false
+    task: true
   gps:
+    task:
+      terminal-status:
+        expire-time: 10
+    report-interval: 25
     probe:
       radius:
         default: 500

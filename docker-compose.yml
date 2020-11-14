@@ -16,10 +16,11 @@ services:
     ports:
       - 6379:6379
     volumes:
+      - ./redis/conf:/etc/redis
       - one_redis_data:/data
     networks:
       - one-nw
-    command: redis-server --appendonly yes
+    command: redis-server /etc/redis/redis.my.conf --appendonly yes
   one-mysql:
     image: colorlightwzg/one-mysql:v1.2
     container_name: one-mysql
