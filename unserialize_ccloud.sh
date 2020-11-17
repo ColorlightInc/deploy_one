@@ -4,7 +4,7 @@ deploy_path=`pwd`
 docker run --restart=always -d --log-opt max-size=100M \
 -v $deploy_path/unserialize/php.ini:/usr/local/etc/php/php.ini \
 -v $deploy_path/unserialize/www.conf:/usr/local/etc/php-fpm.d/www.conf  \
---network one-nw --name php  hanxiaoxin/ccloud_fastcgi:v2
+--network deploy_one_one-nw --name php  hanxiaoxin/ccloud_fastcgi:v2
 
 sleep 1
 

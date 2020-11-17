@@ -1,7 +1,7 @@
 /*
  Date: 2020年9月29日
 */
-use `spring`;
+use `ccloud`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
