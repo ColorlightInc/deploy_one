@@ -33,6 +33,7 @@ if [ $? -ne "0" ]; then
     exit 1
 fi
 
+#parse sql files into temp file
 #将目标位置的sql文件转储到temp临时文件
 #临时文件
 temp=temp
@@ -47,7 +48,7 @@ echo "use ${database};" >> ${temp}
 echo "SET NAMES utf8mb4;" >> ${temp}
 echo "SET FOREIGN_KEY_CHECKS = 0;" >> ${temp}
 
-function read_sql_file() {
+function _read_sql_file() {
     for file in $*
     do
       if [ -f "${file}" -a "${file##*.}" = "sql" ]; then
@@ -70,38 +71,21 @@ do
       for var in $sql_list
       do
         sql_file=${_sql}/${var}
-        read_sql_file "${sql_file}"
+        _read_sql_file "${sql_file}"
       done
     fi
   elif [ -f "${_sql}" ]; then
-    read_sql_file "${_sql}"
+    _read_sql_file "${_sql}"
   else
     echo "Warning:'${_sql}' is not a sql file!"
     continue
   fi
 done
 
-#if [ -d "${sql_location}" ]; then
-#    sql_list=`ls "${sql_location}" | grep .sql$`
-#    if [ -z "${sql_list}" ]; then
-#        echo "Warning:no sql file found in '${sql_location}'!"
-#        exit 1
-#    else
-#      for var in $sql_list
-#      do
-#        sql_file=${sql_location}/${var}
-#        read_sql_file "${sql_list}"
-#      done
-#    fi
-#    #read_sql_file "${sql_list}"
-#else
-#    read_sql_file "${sql_location}"
-#fi
-
 echo "SET FOREIGN_KEY_CHECKS = 1;" >> ${temp}
 
 
-
+#print tables
 #打印新建表名
 for table_name in `cat ${temp} | grep 'CREATE TABLE' | awk '{print $6}'`
 do
@@ -113,7 +97,7 @@ do
   fi
 done
 
-
+#add tables
 #加表
 docker exec -i one-mysql bash -c "mysql -u root -pcolorlight spring" < ${temp} > /dev/null 2>&1
 if [ $? -eq "0" ]; then
