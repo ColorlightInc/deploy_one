@@ -86,8 +86,8 @@ spring:
     provider:
       timeout: 20000
   datasource:
-    username: root
-    password: colorlight
+    username: ENC(Wm66XW4sUOLjfGXHgeEwng==)
+    password: ENC(BIJf7X3Rcbx9wBlU6/TcyEtnkPwVvMyG)
     url: jdbc:mysql://one-mysql:3306/spring?zeroDateTimeBehavior=convertToNull&characterEncoding=utf-8
     hikari:
       connection-timeout: 20000
@@ -163,3 +163,6 @@ device:
 camera-shot:
   clean:
     time-range: 10 # 摄像头截图自动清理的时间范围，单位天
+jasypt:
+  encryptor:
+    password: colorlight@lednets.com
