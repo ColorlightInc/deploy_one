@@ -6,7 +6,8 @@ services:
     container_name: one-zk
     privileged: true
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.3
     restart: always
     logging:
       driver: "json-file"
@@ -18,13 +19,12 @@ services:
     container_name: one-redis-db
     privileged: true
     restart: always
-    ports:
-      - 6379:6379
     volumes:
       - ./redis/conf:/etc/redis
       - one_redis_data:/data
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.4
     command: redis-server /etc/redis/redis.my.conf --appendonly yes
     logging:
       driver: "json-file"
@@ -34,15 +34,16 @@ services:
   one-mysql:
     image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
+    env_file:
+      - mysql-variables.env
     environment:
-      MYSQL_ROOT_PASSWORD: colorlight
+      MYSQL_DATABASE: spring
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - one_db_data:/var/lib/mysql
       - ./mysql/conf:/etc/mysql/conf.d
     networks:
-      - one-nw
-    ports:
-      - 3307:3306
+      one-nw:
+        ipv4_address: 172.109.0.5
     restart: always
     logging:
       driver: "json-file"
@@ -59,7 +60,8 @@ services:
       - spring_log:/logs
       - ./app:/var/lib/app
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.6
     depends_on:
       - one-zk
       - one-mysql
@@ -76,7 +78,8 @@ services:
       - spring_redis_log:/logs
       - ./redis:/var/lib/redis
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.7
     depends_on:
       - one-zk
       - one-redis-db
@@ -95,7 +98,8 @@ services:
       - spring_ws_log:/logs
       - ./ws:/var/lib/app
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.8
     depends_on:
       - one-zk
       - one-app
@@ -120,7 +124,8 @@ services:
       - ./nginx/letsencrypt:/etc/letsencrypt
       - ./nginx/letsencrypt-backups:/var/lib/letsencrypt
     networks:
-      - one-nw
+      one-nw:
+        ipv4_address: 172.109.0.2
     depends_on:
       - one-zk
       - one-app
@@ -133,10 +138,18 @@ services:
         max-file: "10"
 networks:
   one-nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.109.0.0/16
+          gateway: 172.109.0.1
 volumes:
+  one_db_data:
   one_redis_data:
   spring_uploads_data:
   spring_log:
   spring_redis_log:
   spring_ws_log:
   nginx_log_data:
+  video_service_tmp:

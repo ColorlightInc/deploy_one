@@ -9,6 +9,8 @@ system:
   version: 3.2.8
 baidu:
   apiKey: WDrMfnX0kx3O78lDGqaQAd4vY0BgyqEa
+unilumin:
+  host: AAAA
 clt:
   console-log:
     gps: false

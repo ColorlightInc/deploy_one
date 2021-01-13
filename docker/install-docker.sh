@@ -26,7 +26,7 @@ fi
 docker-compose -v > /dev/null 2>&1
 if [ $? -ne 0 ];then
   #docker_compose install
-  sudo curl -L --fail https://github.com/docker/compose/releases/download/1.26.0/run.sh -o /usr/local/bin/docker-compose  > /dev/null 2>&1
+  sudo curl -L --fail https://github.com/docker/compose/releases/download/1.27.4/run.sh -o /usr/local/bin/docker-compose  > /dev/null 2>&1
   sudo chmod +x /usr/local/bin/docker-compose
 fi
 
