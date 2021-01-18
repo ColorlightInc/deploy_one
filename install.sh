@@ -129,6 +129,7 @@ makeDir() {
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
+  mkdir app && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} app
 }
 
 check_and_install_docker && check_and_install_docker_compose
