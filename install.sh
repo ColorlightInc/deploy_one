@@ -128,16 +128,15 @@ makeDir() {
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
-  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
-  mkdir app && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} app
+  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
+  mkdir -p ${OUTPUT_DIR}/app && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
 
 check_and_install_docker && check_and_install_docker_compose
 
 checkUsers
-makeDir
 #read and set configuration
-read_configuration
+makeDir && read_configuration
 #read and reset docker images version
 update_images_version
 #restart docker-compose
