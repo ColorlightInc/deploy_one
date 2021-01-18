@@ -37,8 +37,8 @@ services:
     user: 999:999
     image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
-    env_file:
-      - mysql-variables.env
+    #env_file:
+    #  - mysql-variables.env
     environment:
       MYSQL_DATABASE: spring
     volumes:
