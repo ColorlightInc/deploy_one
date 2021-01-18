@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#install docker and docker-compose
-sh docker/install-docker.sh
 #users
 COLORLIGHT_USER=colorlight
 COLORLIGHT_USER_UID=3991
@@ -10,8 +8,9 @@ COLORLIGHT_GROUP_GID=3991
 MYSQL_USER=mysql
 NGINX_USER=www-data
 
-CURR_PATH=$(pwd)/clt_deploy
-TEMPLATE_DIR=template
+CURR_PATH=$(pwd)
+OUTPUT_DIR=${CURR_PATH}/clt_deploy
+TEMPLATE_DIR=${CURR_PATH}/template
 
 checkUsers()
 {
@@ -73,7 +72,7 @@ check_and_install_docker_compose()
     if [ $? -eq 0 ];then
         echo "docker-compose install success."
     else
-        echo "install docker-compose fail from https://github.com/docker/compose/releases/download/1.26.0/run.sh, check your network."
+        echo "install docker-compose fail from https://github.com/docker/compose/releases/download/1.27.4/run.sh, check your network."
         exit 1
     fi
 }
@@ -94,11 +93,11 @@ read_configuration()
     fi
 
     if [ $_open_ssl = 'true' ];then
-        sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|AAAA|${_address}|g" ${CURR_PATH}/template/ssl_myconf.conf.template > ${CURR_PATH}/nginx/myconf.conf
-        sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${CURR_PATH}/template/application.yml.template > ${CURR_PATH}/app/application.yml
+        sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
+        sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
     else
-        sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${CURR_PATH}/template/myconf.conf.template > ${CURR_PATH}/nginx/myconf.conf
-        sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${CURR_PATH}/template/application.yml.template > ${CURR_PATH}/app/application.yml
+        sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${TEMPLATE_DIR}/myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
+        sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
     fi
 }
 
@@ -120,16 +119,16 @@ update_images_version()
         -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
         -e "s| - PORT_80:80| - ${_port}:80| g" \
         -e "s| - PORT_WS:8443| - ${_port_websocket}:8443| g" \
-        ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
+        ${TEMPLATE_DIR}/docker-compose.yml.template > ${OUTPUT_DIR}/docker-compose.yml
 }
 
 makeDir() {
-  mkdir -p $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $CURR_PATH
+  mkdir -p $OUTPUT_DIR && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
-  cp -r ${TEMPLATE_DIR}/mysql $CURR_PATH && chown ${MYSQL_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/mysql
-  cp -r ${TEMPLATE_DIR}/nginx $CURR_PATH && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/nginx
-  cp -r ${TEMPLATE_DIR}/redis $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/redis
-  cp -r ${TEMPLATE_DIR}/ws $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/redis
+  cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
+  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
+  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
+  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
 }
 
 check_and_install_docker && check_and_install_docker_compose
