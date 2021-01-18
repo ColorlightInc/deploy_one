@@ -175,11 +175,19 @@ makeDir && read_configuration
 update_images_version
 #init data
 docker pull colorlightwzg/one-mysql:${_one_mysql_tag}
-init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "${OUTPUT_DIR##*/}_one_db_data"
-sleep 200
-#todo 可以加个探测
-after_init_mysql_data
 
+MYSQL_DATABASE_DATA_VOLUME="${OUTPUT_DIR##*/}_one_db_data"
+docker volume ls | grep $MYSQL_DATABASE_DATA_VOLUME
+if [ $? -ne 0 -o ! -d "/var/lib/docker/volume/${MYSQL_DATABASE_DATA_VOLUME}/_data/mysql" ]; then
+    _need_to_init="true"
+fi
+
+if [ "$_need_to_init" ]; then
+    init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "$MYSQL_DATABASE_DATA_VOLUME"
+    sleep 200
+    #todo 可以加个探测
+    after_init_mysql_data
+fi
 #restart docker-compose
 cd ${OUTPUT_DIR} && docker-compose down && docker-compose up -d
 echo "SUCCESS:colorlight cloud部署完成"
