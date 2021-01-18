@@ -12,6 +12,17 @@ CURR_PATH=$(pwd)
 OUTPUT_DIR=${CURR_PATH}/clt_deploy
 TEMPLATE_DIR=${CURR_PATH}/template
 
+target_dir=$1
+if [ "$target_dir" ]; then
+    if [ -d "$target_dir" ]; then
+        TEMPLATE_DIR=${target_dir}/clt_deploy
+        echo "用户指定部署目录 ：${TEMPLATE_DIR}"
+    else
+        echo "Usage : $0 [部署目录的位置]"
+        exit 1
+    fi
+fi
+
 checkUsers()
 {
     egrep "$COLORLIGHT_GROUP" /etc/group >& /dev/null
