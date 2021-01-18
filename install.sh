@@ -87,6 +87,29 @@ check_and_install_docker_compose()
         exit 1
     fi
 }
+# $1 image $2 data dir
+init_mysql_data()
+{
+    local _mysql_docker_image=$1
+    local _mysql_data_volume=$2
+    echo "正在初始化数据库数据...请稍等几分钟"
+
+    docker network create one-nw > /dev/null 2>&1
+    docker volume create ${_mysql_data_volume} > /dev/null 2>&1
+
+    docker run --restart=always -d \
+    -e MYSQL_ROOT_PASSWORD=colorlight \
+    -e MYSQL_DATABASE=spring \
+    -v ${_mysql_data_volume}:/var/lib/mysql \
+    --name init-data \
+    --network one-nw \
+    ${_mysql_docker_image} > /dev/null 2>&1
+}
+after_init_mysql_data()
+{
+    docker network rm one-nw > /dev/null 2>&1
+    docker rm -f init-data > /dev/null 2>&1
+}
 read_configuration()
 {
     _address=`cat config | grep _address | awk -F= '{print $2}' | sed -e 's/http:\/\///g' -e 's/https:\/\///g'`
@@ -150,6 +173,13 @@ checkUsers
 makeDir && read_configuration
 #read and reset docker images version
 update_images_version
+#init data
+docker pull colorlightwzg/one-mysql:${_one_mysql_tag}
+init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "${OUTPUT_DIR##*/}_one_db_data"
+sleep 200
+#todo 可以加个探测
+after_init_mysql_data
+
 #restart docker-compose
 cd ${OUTPUT_DIR} && docker-compose down && docker-compose up -d
 echo "SUCCESS:colorlight cloud部署完成"

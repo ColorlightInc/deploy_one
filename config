@@ -11,4 +11,4 @@ _one_app=unismart
 _one_nginx=unismart
 _one_redis=unismart
 _one_ws=unismart
-_one_mysql=v8.0.22-210106
+_one_mysql=unismart
