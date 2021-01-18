@@ -2,6 +2,7 @@
 version: '3.8'
 services:
   one-zk:
+    user: 1000:1000
     image: zookeeper:latest
     container_name: one-zk
     privileged: true
@@ -15,6 +16,7 @@ services:
         max-size: "5m"
         max-file: "10"
   one-redis-db:
+    user: 999:999
     image: redis:latest
     container_name: one-redis-db
     privileged: true
@@ -32,6 +34,7 @@ services:
         max-size: "5m"
         max-file: "10"
   one-mysql:
+    user: 999:999
     image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
     env_file:
@@ -51,6 +54,7 @@ services:
         max-size: "5m"
         max-file: "10"
   one-app:
+    user: 3991:3991
     image: colorlightwzg/one-app:TAG
     container_name: one-app
     environment:
@@ -72,6 +76,7 @@ services:
         max-size: "10m"
         max-file: "10"
   one-redis:
+    user: 3991:3991
     image: colorlightwzg/one-redis:TAG
     container_name: one-redis
     volumes:
@@ -92,6 +97,7 @@ services:
         max-size: "5m"
         max-file: "10"
   one-ws:
+    user: 3991:3991
     image: colorlightwzg/one-ws:TAG
     container_name: one-ws
     volumes:
@@ -110,11 +116,13 @@ services:
         max-size: "5m"
         max-file: "10"
   one-nginx:
+    user: www-data:www-data
+    privileged: true
     image: colorlightwzg/one-nginx:TAG
     container_name: one-nginx
     ports:
-      - 443:443
-      - PORT_80:80
+      - 443:4443
+      - PORT_80:8000
       - PORT_WS:8443
     volumes:
       - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads/

@@ -2,9 +2,81 @@
 
 #install docker and docker-compose
 sh docker/install-docker.sh
+#users
+COLORLIGHT_USER=colorlight
+COLORLIGHT_USER_UID=3991
+COLORLIGHT_GROUP=colorlight
+COLORLIGHT_GROUP_GID=3991
+MYSQL_USER=mysql
+NGINX_USER=www-data
 
-CURR_PATH=`pwd`
+CURR_PATH=$(pwd)/clt_deploy
+TEMPLATE_DIR=template
 
+checkUsers()
+{
+    egrep "$COLORLIGHT_GROUP" /etc/group >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        groupadd $COLORLIGHT_GROUP -g $COLORLIGHT_GROUP_GID
+    fi
+
+    egrep "$COLORLIGHT_USER" /etc/passwd >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        useradd $COLORLIGHT_USER -g $COLORLIGHT_GROUP -u $COLORLIGHT_USER_UID -m -s /sbin/nologin
+    fi
+
+    egrep "$MYSQL_USER" /etc/passwd >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        useradd $MYSQL_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
+    fi
+
+    egrep "NGINX_USER" /etc/passwd >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        useradd NGINX_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
+    fi
+}
+check_and_install_docker()
+{
+    docker -v
+    if [ $? -eq 0 ];then
+        docker_status=`service docker status | grep Active | awk '{print $2}'`
+        if [ $docker_status != "active" ]; then
+            systemctl start docker
+            echo "restart docker service"
+        fi
+        echo "docker service already exists."
+    else
+        curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+        if [ $? -eq 0 ];then
+            echo "docker-ce install success."
+        else
+            echo "install docker fail from https://get.docker.com, check your network."
+            exit 1
+        fi
+    fi
+}
+check_and_install_docker_compose()
+{
+    docker-compose -v > /dev/null 2>&1
+    if [ $? -ne 0 ];then
+      #docker_compose install
+      sudo curl -L --fail https://github.com/docker/compose/releases/download/1.27.4/run.sh -o /usr/local/bin/docker-compose  > /dev/null 2>&1
+      sudo chmod +x /usr/local/bin/docker-compose
+    fi
+
+
+    docker-compose -v > /dev/null 2>&1
+    if [ $? -eq 0 ];then
+        echo "docker-compose install success."
+    else
+        echo "install docker-compose fail from https://github.com/docker/compose/releases/download/1.26.0/run.sh, check your network."
+        exit 1
+    fi
+}
 read_configuration()
 {
     _address=`cat config | grep _address | awk -F= '{print $2}' | sed -e 's/http:\/\///g' -e 's/https:\/\///g'`
@@ -51,9 +123,23 @@ update_images_version()
         ${CURR_PATH}/template/docker-compose.yml.template > ${CURR_PATH}/docker-compose.yml
 }
 
+makeDir() {
+  mkdir -p $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $CURR_PATH
+  echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
+  cp -r ${TEMPLATE_DIR}/mysql $CURR_PATH && chown ${MYSQL_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/mysql
+  cp -r ${TEMPLATE_DIR}/nginx $CURR_PATH && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/nginx
+  cp -r ${TEMPLATE_DIR}/redis $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/redis
+  cp -r ${TEMPLATE_DIR}/ws $CURR_PATH && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${TEMPLATE_DIR}/redis
+}
+
+check_and_install_docker && check_and_install_docker_compose
+
+checkUsers
+makeDir
 #read and set configuration
 read_configuration
 #read and reset docker images version
 update_images_version
 #restart docker-compose
-docker-compose up -d
+docker-compose down && docker-compose up -d
+echo "SUCCESS:colorlight cloud部署完成"

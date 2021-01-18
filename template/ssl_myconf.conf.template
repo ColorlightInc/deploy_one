@@ -1,13 +1,13 @@
 #http
 server {
-    listen 80;
+    listen 8000;
     server_name AAAA;
     rewrite ^(.*)$ https://${server_name}$1 permanent;
 }
 #https
 server {
-  listen 9999;
-  listen 443;
+  listen 8443;
+  listen 4443;
   server_name AAAA;
   
   ssl on;

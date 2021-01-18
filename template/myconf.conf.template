@@ -1,8 +1,8 @@
 server {
-  listen 8888;
+  listen 8000;
   listen 8443;
   server_name AAAA;
-  
+
   gzip on;
   gzip_comp_level 6;
   gzip_types text/css application/javascript application/x-javascript application/rss+xml application/json;
@@ -12,6 +12,7 @@ server {
   client_body_buffer_size 8k;
 
   add_header X-Frame-Options SAMEORIGIN;
+  proxy_cookie_path / "/; httponly";
 
   location ~ .*.(svn|Git|cvs) {
         deny all;
@@ -28,7 +29,6 @@ server {
         proxy_set_header X-Real-IP      $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://one-app:8080;
-        proxy_cookie_path / "/; httponly; secure; SameSite=Lax";
   }
 
   location /wp-login.php {
@@ -36,7 +36,6 @@ server {
         proxy_set_header X-Real-IP      $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://one-app:8080;
-        proxy_cookie_path / "/; httponly; secure; SameSite=Lax";
   }
   #Yahoo 天气转发
   location ^~ /news {
@@ -52,7 +51,6 @@ server {
         proxy_set_header X-Real-IP      $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://backup.lednets.com:3000;
-        proxy_cookie_path / "/; httponly; secure; SameSite=Lax";
   }
   location  /wp-content/uploads/ {
         alias /usr/share/nginx/html/backup/wp-content/uploads/;
@@ -65,7 +63,6 @@ server {
         proxy_set_header X-Real-IP      $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://one-app:8080;
-        proxy_cookie_path / "/; httponly; secure; SameSite=Lax";
   }
   #前端websocket
   location /ColorWebSocket  {
@@ -92,6 +89,5 @@ server {
        proxy_set_header X-Real-IP      $remote_addr;
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
        proxy_pass http://one-app:8080;
-       proxy_cookie_path / "/; httponly; secure; SameSite=Lax";
    }
 }

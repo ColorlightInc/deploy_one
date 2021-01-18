@@ -13,7 +13,7 @@ spring:
     #host: one-redis-db
     host: one-redis-db
     port: 6379
-    password:
+    password: colorlight@lednets.com
     timeout: 3000 # 连接超时时间
 #    lettuce:
 #      pool:
