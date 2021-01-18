@@ -140,5 +140,5 @@ makeDir && read_configuration
 #read and reset docker images version
 update_images_version
 #restart docker-compose
-docker-compose down && docker-compose up -d
+cd ${OUTPUT_DIR} && docker-compose down && docker-compose up -d
 echo "SUCCESS:colorlight cloud部署完成"
