@@ -168,7 +168,7 @@ makeDir() {
   mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
-  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
+  mkdir -c ${OUTPUT_DIR}/nginx && cp ${TEMPLATE_DIR}/nginx/nginx.conf ${OUTPUT_DIR}/nginx && chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
