@@ -8,7 +8,7 @@ file:
 system:
   version: 3.2.8
 baidu:
-  apiKey: WDrMfnX0kx3O78lDGqaQAd4vY0BgyqEa
+  apiKey: ENC(87TX57siP1VjF+49PeaJ8Az+YeA+7ilahLHjn0bgPlaUgFKllkVy/IjVq8d45nP/)
 unilumin:
   host: 172.31.2.133
 clt:
@@ -58,7 +58,7 @@ clt:
     default-string-context: 您的盒子上报数据出现异常，请检查！
 authentication:
   # 双因子认证密钥发行商
-  2faSecretIssuer: colorlightcloud
+  2faSecretIssuer: ENC(XuPegcMPVTElcFe0QANLKwSURWgs51q3)
   # 窗口大小, 插件默认是 3，现在重置为 1，就是 30 秒
   windowSize: 1
 terminal:
@@ -88,7 +88,7 @@ spring:
   datasource:
     username: ENC(Wm66XW4sUOLjfGXHgeEwng==)
     password: ENC(BIJf7X3Rcbx9wBlU6/TcyEtnkPwVvMyG)
-    url: jdbc:mysql://one-mysql:3306/spring?zeroDateTimeBehavior=convertToNull&characterEncoding=utf-8
+    url: ENC(DHnNCeOo4Qv1FzO9jsaWHHrsoKaKjACYzn2rHNwAzR3UGEqCX/P2C0Efn7UNTkwBqzJwPDlEoT1iepxFTzkrhEvDqsoQj8L3Gw9EFOmoDQxgNggeRPeNtSZAp06nIrM744CuqvUNZX8=)
     hikari:
       connection-timeout: 20000
       auto-commit: true
@@ -107,8 +107,8 @@ spring:
       enabled: true
   mail:
     host: smtp.qq.com
-    username: 2995519898@qq.com
-    password: qoidfvfyciuhddfe
+    username: ENC(UODLbn4ejyinkV9Us/X7++xQSxWbB7V5943/bccgm7E=)
+    password: ENC(0jzYOZnWGx+ymevUXF0yDDVIdyNego5TbQAnv8u6yYg=)
     properties:
       mail:
         smtp:
@@ -142,4 +142,4 @@ camera-shot:
     time-range: 10 # 摄像头截图自动清理的时间范围，单位天
 jasypt:
   encryptor:
-    password: colorlight@lednets.com
+    password: tDKPfSIqBsHVCJqrxtX+VYJTVmkfvPgyJXHOOP7AQWU=

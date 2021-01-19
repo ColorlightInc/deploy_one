@@ -20,28 +20,6 @@ spring:
       timeout: 20000
     provider:
       timeout: 20000
-  boot:
-    admin:
-      client:
-        url: http://one-admin:8990  # 监控服务器url
-        username: adminc  #登录监控服务器的账号密码
-        password: colorlight
-        instance:
-          #service-url: http://192.168.15.100:8080   # 告诉服务器本地地址
-          #health-url: http://192.168.15.100:8080/actuator/health
-          prefer-ip: true
-management:
-  # 端点健康情况，默认值"never"，设置为"always"可以显示硬盘使用情况和线程情况
-  endpoint:
-    env:
-      enabled: true
-    health:
-      show-details: always
-  # 设置端点暴露的哪些内容，默认["health","info"]，设置"*"代表暴露所有可访问的端点
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 logging:
   level:
     root: WARN
