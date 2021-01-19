@@ -86,8 +86,8 @@ spring:
     provider:
       timeout: 20000
   datasource:
-    username: ENC(Wm66XW4sUOLjfGXHgeEwng==)
-    password: ENC(BIJf7X3Rcbx9wBlU6/TcyEtnkPwVvMyG)
+    username: ENC(reR04sN5yTKHJ17tymfIgg==)
+    password: ENC(MnU/1ohkhkOX1/Vx0/Rw0kU7iOGGCm2k)
     url: ENC(DHnNCeOo4Qv1FzO9jsaWHHrsoKaKjACYzn2rHNwAzR3UGEqCX/P2C0Efn7UNTkwBqzJwPDlEoT1iepxFTzkrhEvDqsoQj8L3Gw9EFOmoDQxgNggeRPeNtSZAp06nIrM744CuqvUNZX8=)
     hikari:
       connection-timeout: 20000
