@@ -116,7 +116,6 @@ services:
         max-size: "5m"
         max-file: "10"
   one-nginx:
-    user: www-data:www-data
     privileged: true
     image: colorlightwzg/one-nginx:TAG
     container_name: one-nginx
