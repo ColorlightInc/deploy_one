@@ -27,7 +27,8 @@ makeCertificateDir()
     local _nginx_server_address=$1
     _certificate_dir="${OUTPUT_DIR}/nginx/letsencrypt/live/${_nginx_server_address}"
     mkdir -p ${_certificate_dir}
-    cp ${TEMPLATE_DIR}/nginx/*.pem ${_certificate_dir}
+    cat ${TEMPLATE_DIR}/nginx/fullchain.pem > ${_certificate_dir}/fullchain.pem
+    cat ${TEMPLATE_DIR}/nginx/privkey.pem > ${_certificate_dir}/privkey.pem
     chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${_certificate_dir}
 }
 checkUsers()
@@ -168,7 +169,7 @@ makeDir() {
   mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
-  mkdir -c ${OUTPUT_DIR}/nginx && cp ${TEMPLATE_DIR}/nginx/nginx.conf ${OUTPUT_DIR}/nginx && chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
+  mkdir -c ${OUTPUT_DIR}/nginx && cat ${TEMPLATE_DIR}/nginx/nginx.conf > ${OUTPUT_DIR}/nginx/nginx.conf && chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
