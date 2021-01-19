@@ -22,7 +22,13 @@ if [ "$target_dir" ]; then
         exit 1
     fi
 fi
-
+makeCertificateDir()
+{
+    local _nginx_server_address=$1
+    _certificate_dir="${OUTPUT_DIR}/nginx/letsencrypt/live/${_nginx_server_address}"
+    mkdir -p ${_certificate_dir}
+    cp ${TEMPLATE_DIR}/nginx/*.pem ${_certificate_dir}
+}
 checkUsers()
 {
     egrep "$COLORLIGHT_GROUP" /etc/group >& /dev/null
@@ -129,6 +135,7 @@ read_configuration()
     if [ $_open_ssl = 'true' ];then
         sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
         sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
+        makeCertificateDir ${_address}
     else
         sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${TEMPLATE_DIR}/myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
         sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
