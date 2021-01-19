@@ -175,7 +175,13 @@ makeDir() {
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
+after_start_services()
+{
+  #华为红线nginx扫描 3.4
+   docker exec -it one-nginx bash -c "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx"
+   docker exec -it one-nginx bash -c "sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx"
 
+}
 check_and_install_docker && check_and_install_docker_compose
 
 checkUsers
@@ -198,4 +204,5 @@ if [ -n "$_need_to_init" ]; then
 fi
 #restart docker-compose
 cd ${OUTPUT_DIR} && docker-compose down && docker-compose up -d
+after_start_services
 echo "SUCCESS:colorlight cloud部署完成"
