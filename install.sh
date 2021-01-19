@@ -27,8 +27,8 @@ makeCertificateDir()
     local _nginx_server_address=$1
     _certificate_dir="${OUTPUT_DIR}/nginx/letsencrypt/live/${_nginx_server_address}"
     mkdir -p ${_certificate_dir}
-    cat ${TEMPLATE_DIR}/certificate/fullchain.pem > ${_certificate_dir}/fullchain.pem && chmod 755 ${_certificate_dir}/fullchain.pem
-    cat ${TEMPLATE_DIR}/certificate/privkey.pem > ${_certificate_dir}/privkey.pem && chmod 755 ${_certificate_dir}/privkey.pem
+    cat ${TEMPLATE_DIR}/certificate/fullchain.pem > ${_certificate_dir}/fullchain.pem && chmod 750 ${_certificate_dir}/fullchain.pem
+    cat ${TEMPLATE_DIR}/certificate/privkey.pem > ${_certificate_dir}/privkey.pem && chmod 750 ${_certificate_dir}/privkey.pem
 }
 checkUsers()
 {
@@ -141,7 +141,7 @@ read_configuration()
         sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${TEMPLATE_DIR}/myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
         sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
     fi
-    chmod 755 ${OUTPUT_DIR}/nginx/myconf.conf
+    chmod 640 ${OUTPUT_DIR}/nginx/myconf.conf
 }
 
 update_images_version()
@@ -170,7 +170,7 @@ makeDir() {
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
   #nginx要属于root
-  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chmod 755 ${OUTPUT_DIR}/nginx/nginx.conf
+  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chmod 750 ${OUTPUT_DIR}/nginx && chmod 640 ${OUTPUT_DIR}/nginx/nginx.conf
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
