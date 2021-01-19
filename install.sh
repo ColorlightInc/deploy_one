@@ -27,8 +27,8 @@ makeCertificateDir()
     local _nginx_server_address=$1
     _certificate_dir="${OUTPUT_DIR}/nginx/letsencrypt/live/${_nginx_server_address}"
     mkdir -p ${_certificate_dir}
-    cat ${TEMPLATE_DIR}/certificate/fullchain.pem > ${_certificate_dir}/fullchain.pem && chmod 750 ${_certificate_dir}/fullchain.pem
-    cat ${TEMPLATE_DIR}/certificate/privkey.pem > ${_certificate_dir}/privkey.pem && chmod 750 ${_certificate_dir}/privkey.pem
+    cat ${TEMPLATE_DIR}/certificate/fullchain.pem > ${_certificate_dir}/fullchain.pem && chmod 400 ${_certificate_dir}/fullchain.pem
+    cat ${TEMPLATE_DIR}/certificate/privkey.pem > ${_certificate_dir}/privkey.pem && chmod 400 ${_certificate_dir}/privkey.pem
 }
 checkUsers()
 {
@@ -170,16 +170,19 @@ makeDir() {
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
   #nginx要属于root
-  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chmod 750 ${OUTPUT_DIR}/nginx && chmod 640 ${OUTPUT_DIR}/nginx/nginx.conf
+  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && \
+      chmod 750 ${OUTPUT_DIR}/nginx && \
+      chmod 640 ${OUTPUT_DIR}/nginx/nginx.conf
+      chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
+
 after_start_services()
 {
   #华为红线nginx扫描 3.4
-   docker exec -it one-nginx bash -c "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx"
-   docker exec -it one-nginx bash -c "sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx"
+   docker exec -it one-nginx bash -c "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx"
 
 }
 check_and_install_docker && check_and_install_docker_compose
