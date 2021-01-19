@@ -28,6 +28,7 @@ makeCertificateDir()
     _certificate_dir="${OUTPUT_DIR}/nginx/letsencrypt/live/${_nginx_server_address}"
     mkdir -p ${_certificate_dir}
     cp ${TEMPLATE_DIR}/nginx/*.pem ${_certificate_dir}
+    chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${_certificate_dir}
 }
 checkUsers()
 {
@@ -164,13 +165,13 @@ update_images_version()
 }
 
 makeDir() {
-  mkdir -p $OUTPUT_DIR && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
+  mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
   echo "正在初始化colorlight cloud部署目录:$(realpath $CURR_PATH)..."
-  cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
-  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
-  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
-  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
-  mkdir -p ${OUTPUT_DIR}/app && chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
+  cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
+  cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && chown -R ${NGINX_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/nginx
+  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
+  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
+  mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
 
 check_and_install_docker && check_and_install_docker_compose
