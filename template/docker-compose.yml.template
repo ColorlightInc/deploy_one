@@ -130,7 +130,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/myconf.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/letsencrypt:/etc/letsencrypt
-      #- ./nginx/letsencrypt-backups:/var/lib/letsencrypt
+      - ./nginx/letsencrypt-backups:/var/lib/letsencrypt
     networks:
       one-nw:
         ipv4_address: 172.109.0.2
