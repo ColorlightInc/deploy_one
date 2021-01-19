@@ -115,16 +115,6 @@ spring:
           auth: true
   thymeleaf:
     cache: false
-  boot:
-    admin:
-      client:
-        # url: http://127.0.0.1:8990
-        url: http://one-admin:8990  # 监控服务器url
-        username: adminc  #登录监控服务器的账号密码
-        password: colorlight
-        instance:
-          #service-url: http://192.168.1.70:8090   # 告诉服务器本地地址
-          prefer-ip: true
   request:
     check:
       timeout: 10000  #重复请求过滤的session过期时间，单位毫秒
@@ -132,7 +122,6 @@ mybatis:
   config-location: classpath:/mybatis/mybatis-config.xml
   mapper-locations: classpath*:/mapping/*.xml
   type-aliases-package: com.example.one.domain
-
 logging:
   level:
     root: WARN
@@ -145,18 +134,6 @@ logging:
       example:
         one: INFO
   file: logs/spring-boot-logging.log
-management:
-  # 端点健康情况，默认值"never"，设置为"always"可以显示硬盘使用情况和线程情况
-  endpoint:
-    env:
-      enabled: true
-    health:
-      show-details: always
-  # 设置端点暴露的哪些内容，默认["health","info"]，设置"*"代表暴露所有可访问的端点
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 device:
   report:
     time: 200000

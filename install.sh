@@ -174,15 +174,13 @@ makeDir && read_configuration
 #read and reset docker images version
 update_images_version
 #init data
-docker pull colorlightwzg/one-mysql:${_one_mysql_tag}
-
 MYSQL_DATABASE_DATA_VOLUME="${OUTPUT_DIR##*/}_one_db_data"
-docker volume ls | grep $MYSQL_DATABASE_DATA_VOLUME
-if [ $? -ne 0 -o ! -d "/var/lib/docker/volume/${MYSQL_DATABASE_DATA_VOLUME}/_data/mysql" ]; then
+docker volume ls | grep $MYSQL_DATABASE_DATA_VOLUME > /dev/null 2>&1
+if [ $? -ne 0 -o ! -d "/var/lib/docker/volumes/${MYSQL_DATABASE_DATA_VOLUME}/_data/mysql" ]; then
     _need_to_init="true"
 fi
 
-if [ "$_need_to_init" ]; then
+if [ -n "$_need_to_init" ]; then
     init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "$MYSQL_DATABASE_DATA_VOLUME"
     sleep 200
     #todo 可以加个探测
