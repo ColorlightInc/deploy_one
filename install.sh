@@ -92,7 +92,7 @@ init_mysql_data()
 {
     local _mysql_docker_image=$1
     local _mysql_data_volume=$2
-    echo "正在初始化数据库数据...请稍等几分钟"
+    echo "正在初始化数据库数据...请稍等几分钟(请不要操作以免导致数据库初始化失败)"
 
     docker network create one-nw > /dev/null 2>&1
     docker volume create ${_mysql_data_volume} > /dev/null 2>&1
@@ -182,7 +182,7 @@ fi
 
 if [ -n "$_need_to_init" ]; then
     init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "$MYSQL_DATABASE_DATA_VOLUME"
-    sleep 200
+    sleep 150
     #todo 可以加个探测
     after_init_mysql_data
 fi
