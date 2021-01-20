@@ -141,7 +141,7 @@ read_configuration()
         sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${TEMPLATE_DIR}/myconf.conf.template > ${OUTPUT_DIR}/nginx/myconf.conf
         sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template > ${OUTPUT_DIR}/app/application.yml
     fi
-    chmod 640 ${OUTPUT_DIR}/nginx/myconf.conf
+    chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
 }
 
 update_images_version()
@@ -171,8 +171,8 @@ makeDir() {
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
   #nginx要属于root
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} && \
-      chmod 750 ${OUTPUT_DIR}/nginx && \
-      chmod 640 ${OUTPUT_DIR}/nginx/nginx.conf
+      chmod 600 ${OUTPUT_DIR}/nginx && \
+      chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf
       chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
@@ -181,9 +181,12 @@ makeDir() {
 
 after_start_services()
 {
+   echo "服务启动中..."
+   sleep 5
   #华为红线nginx扫描 3.4
-   docker exec -it one-nginx bash -c "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx"
-
+   docker exec -i one-nginx bash -c \
+      "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx && rm -rf /usr/share/nginx/html/index.html" \
+      > /dev/null 2>&1
 }
 check_and_install_docker && check_and_install_docker_compose
 
