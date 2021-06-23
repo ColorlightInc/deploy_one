@@ -120,7 +120,7 @@ _init_mysql_data() {
   -v ${_mysql_data_volume}:/var/lib/mysql \
   --name init-data \
   --network one-nw \
-  ${_mysql_docker_image} >/dev/null 2>&1
+  ${_mysql_docker_image} >/dev/null 2>&1 && sleep 150
 
   echo ${_password} | base64 >${_password_output}
   echo "[NOTE] 初始化数据库完成! 数据库密码(base64)存放在:【${_password_output}】."
@@ -140,10 +140,11 @@ _run_ccloud_sql_init_job() {
   docker pull ${CCLOUD_SQL_INIT_JOB_IMAGE} >/dev/null 2>&1 && \
   docker volume create ${_container_log_volume} >/dev/null 2>&1 && \
   docker run --rm \
-  -v tmp_job_log:/out \
+  -v ${_container_log_volume}:/out \
   --network ${_container_network} \
-  ${CCLOUD_SQL_INIT_JOB_IMAGE} --password=${_password} --database=${_database} --host=${_host} >/dev/null 2>&1 && \
-  cat /var/lib/docker/volume/${_container_log_volume}/_data/log && \
+  ${CCLOUD_SQL_INIT_JOB_IMAGE} --password=${_password} --database=${_database} --host=${_host} >/dev/null 2>&1
+
+  cat /var/lib/docker/volumes/${_container_log_volume}/_data/log && \
   docker volume rm ${_container_log_volume} >/dev/null 2>&1
 }
 
@@ -193,7 +194,7 @@ update_images_version() {
 }
 
 check_secret_home() {
-  if [ -e "${SECRET_ROOT}" ]; then
+  if [ ! -e "${SECRET_ROOT}" ]; then
     mkdir -p -m 600 ${SECRET_ROOT}
     chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT}
   fi
@@ -221,7 +222,6 @@ before_start_services() {
 
   if [ -n "$_need_to_init" ]; then
     _init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "$MYSQL_DATABASE_DATA_VOLUME"
-    sleep 150
     #todo 可以加个探测
     _after_init_mysql_data
   fi
@@ -238,7 +238,7 @@ after_start_services() {
   "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx && rm -rf /usr/share/nginx/html/index.html" \
   >/dev/null 2>&1
 
-  _run_ccloud_sql_init_job "${OUTPUT_DIR##*/}_one-mysql" "spring" "$(base64 -d ${_password_output})"
+  _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${_password_output})"
 }
 _MAIN() {
   check_and_install_docker && check_and_install_docker_compose
