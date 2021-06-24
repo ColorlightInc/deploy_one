@@ -10,7 +10,9 @@ NGINX_USER=www-data
 
 #secret
 SECRET_ROOT=/usr/local/etc/colorlight
-_password_output=${SECRET_ROOT}/mysql.secret
+_mysql_password_output=${SECRET_ROOT}/mysql.secret
+#TODO 传参或输入
+_jasypt_salt_output=${SECRET_ROOT}/jasypt.secret
 
 CCLOUD_SQL_INIT_JOB_IMAGE=colorlightwzg/ccloud-sql-init-job:latest
 CURR_PATH=$(pwd)
@@ -122,8 +124,8 @@ _init_mysql_data() {
   --network one-nw \
   ${_mysql_docker_image} >/dev/null 2>&1 && sleep 150
 
-  echo ${_password} | base64 >${_password_output}
-  echo "[NOTE] 初始化数据库完成! 数据库密码(base64)存放在:【${_password_output}】."
+  echo ${_password} | base64 >${_mysql_password_output}
+  echo "[NOTE] 初始化数据库完成! 数据库密码(base64)存放在:【${_mysql_password_output}】."
 }
 _after_init_mysql_data() {
   docker network rm one-nw >/dev/null 2>&1
@@ -172,8 +174,13 @@ read_configuration() {
   fi
   chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
 }
-
-update_images_version() {
+_check_jasypt_salt() {
+  if [ ! -e ${_jasypt_salt_output} ]; then
+      _generate_random16_pwd | base64 > ${_jasypt_salt_output}
+      echo "[NOTE] 生成新的敏感信息加密密码(base64),存放在:【${_jasypt_salt_output}】."
+  fi
+}
+update_compose_file() {
   _one_app_tag=$(cat config | grep -m 1 _one_app | awk -F= '{print $2}')
   _one_nginx_tag=$(cat config | grep -m 1 _one_nginx | awk -F= '{print $2}')
   _one_redis_tag=$(cat config | grep -m 1 _one_redis | awk -F= '{print $2}')
@@ -183,11 +190,15 @@ update_images_version() {
   _port=$(cat config | grep -m 1 _port | awk -F= '{print $2}')
   _port_websocket=$(cat config | grep _port_websocket | awk -F= '{print $2}')
 
+  _check_jasypt_salt && \
+  _java_options+=" -Djasypt.encryptor.password=$(base64 -d ${_jasypt_salt_output})"
+
   sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
   -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
   -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
   -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
   -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
+  -e "s| JAVA_TOOL_OPTIONS: -| JAVA_TOOL_OPTIONS: ${_java_options}| g" \
   -e "s| - PORT_80:80| - ${_port}:80| g" \
   -e "s| - PORT_WS:8443| - ${_port_websocket}:8443| g" \
   ${TEMPLATE_DIR}/docker-compose.yml.template >${OUTPUT_DIR}/docker-compose.yml
@@ -226,8 +237,7 @@ before_start_services() {
     _after_init_mysql_data
   fi
 }
-start_services()
-{
+start_services() {
   cd ${OUTPUT_DIR} && docker-compose down && docker-compose up -d
   echo "[NOTE] 服务启动中..."
 }
@@ -238,7 +248,7 @@ after_start_services() {
   "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx && rm -rf /usr/share/nginx/html/index.html" \
   >/dev/null 2>&1
 
-  _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${_password_output})"
+  _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${_mysql_password_output})"
 }
 _MAIN() {
   check_and_install_docker && check_and_install_docker_compose
@@ -246,7 +256,7 @@ _MAIN() {
   #read and set configuration
   makeDir && read_configuration
   #read and reset docker images version
-  update_images_version
+  update_compose_file
   #init data
   before_start_services
   start_services

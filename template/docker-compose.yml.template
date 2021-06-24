@@ -58,7 +58,7 @@ services:
     image: colorlightwzg/one-app:TAG
     container_name: one-app
     environment:
-      SPRING_PROFILES_ACTIVE: prod
+      JAVA_TOOL_OPTIONS: -
     volumes:
       - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads
       - spring_log:/logs
@@ -79,6 +79,8 @@ services:
     user: 3991:3991
     image: colorlightwzg/one-redis:TAG
     container_name: one-redis
+    environment:
+      JAVA_TOOL_OPTIONS: -
     volumes:
       - spring_redis_log:/logs
       - ./redis:/var/lib/redis
