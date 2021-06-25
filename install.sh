@@ -235,9 +235,10 @@ _format_compose_file() {
 
 _check_and_make_secret_home() {
   if [ ! -e "${SECRET_ROOT}" ]; then
-    mkdir -p -m 600 ${SECRET_ROOT}
-    chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT}
+    mkdir -p ${SECRET_ROOT}
   fi
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1
+  chown 600 -R ${SECRET_ROOT} >/dev/null 2>&1
 }
 
 _make_deploy_home() {
