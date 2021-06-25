@@ -133,7 +133,7 @@ _init_mysql_data() {
     -v ${_mysql_data_volume}:/var/lib/mysql \
     --name init-data \
     --network one-nw \
-    ${_mysql_docker_image} >/dev/null 2>&1 && sleep 150
+    ${_mysql_docker_image} >/dev/null 2>&1 && sleep 120
 
   echo ${_password} | base64 >${MYSQL_SECRET}
   _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${MYSQL_SECRET}】"

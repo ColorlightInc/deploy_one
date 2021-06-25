@@ -7,8 +7,8 @@ _port_websocket=8443
 
 #docker services image version
 #docker镜像版本配置
-_one_app=unismart
-_one_nginx=unismart4
-_one_redis=unismart2
+_one_app=unismart2
+_one_nginx=unismart5
+_one_redis=unismart0625
 _one_ws=unismart
-_one_mysql=unismart
+_one_mysql=unismart2
