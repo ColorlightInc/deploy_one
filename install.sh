@@ -12,25 +12,14 @@ NGINX_USER=www-data
 
 #secret
 SECRET_ROOT=/usr/local/etc/colorlight
-_mysql_password_output=${SECRET_ROOT}/mysql.secret
-#TODO 传参或输入
-_jasypt_salt_output=${SECRET_ROOT}/jasypt.secret
+MYSQL_SECRET=${SECRET_ROOT}/mysql.secret
+JASYPT_SECRET=${SECRET_ROOT}/jasypt.secret
 
 CCLOUD_SQL_INIT_JOB_IMAGE=colorlightwzg/ccloud-sql-init-job:latest
+JASYPT_ENCODER_IMAGE=colorlightwzg/jasypt-encoder:2.1.1
 CURR_PATH=$(pwd)
 OUTPUT_DIR=${CURR_PATH}/clt_deploy
 TEMPLATE_DIR=${CURR_PATH}/template
-
-target_dir=$1
-if [ "$target_dir" ]; then
-  if [ -d "$target_dir" ]; then
-    OUTPUT_DIR=$(realpath ${target_dir})/clt_deploy
-    _info "%s" "用户指定部署目录 ：${OUTPUT_DIR}"
-  else
-    _error "%s" "Usage : $0 [部署目录的位置]"
-    exit 1
-  fi
-fi
 
 #Usage _info [format] [arg1 [arg2 [...]]]
 _info() {
@@ -58,25 +47,25 @@ _check_and_create_app_users() {
   egrep "$COLORLIGHT_GROUP" /etc/group >&/dev/null
   if [ $? -ne 0 ]; then
     groupadd $COLORLIGHT_GROUP -g $COLORLIGHT_GROUP_GID
-    _info "%s : []" "Create group" "$COLORLIGHT_GROUP"
+    _info "%s : [%s]" "Create group" "$COLORLIGHT_GROUP"
   fi
 
   egrep "$COLORLIGHT_USER" /etc/passwd >&/dev/null
   if [ $? -ne 0 ]; then
     useradd $COLORLIGHT_USER -g $COLORLIGHT_GROUP -u $COLORLIGHT_USER_UID -m -s /sbin/nologin
-    _info "%s : []" "Create user" "$COLORLIGHT_USER"
+    _info "%s : [%s]" "Create user" "$COLORLIGHT_USER"
   fi
 
   egrep "$MYSQL_USER" /etc/passwd >&/dev/null
   if [ $? -ne 0 ]; then
     useradd $MYSQL_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
-    _info "%s : []" "Create user" "$MYSQL_USER"
+    _info "%s : [%s]" "Create user" "$MYSQL_USER"
   fi
 
   egrep "$NGINX_USER" /etc/passwd >&/dev/null
   if [ $? -ne 0 ]; then
     useradd $NGINX_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
-    _info "%s : []" "Create user" "$NGINX_USER"
+    _info "%s : [%s]" "Create user" "$NGINX_USER"
   fi
 }
 _check_and_install_docker() {
@@ -146,10 +135,11 @@ _init_mysql_data() {
     --network one-nw \
     ${_mysql_docker_image} >/dev/null 2>&1 && sleep 150
 
-  echo ${_password} | base64 >${_mysql_password_output}
-  _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${_mysql_password_output}】."
+  echo ${_password} | base64 >${MYSQL_SECRET}
+  _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${MYSQL_SECRET}】"
 }
 _after_init_mysql_data() {
+  _info "%s" "Clear init-data container."
   docker network rm one-nw >/dev/null 2>&1
   docker rm -f init-data >/dev/null 2>&1
 }
@@ -196,10 +186,28 @@ _format_app_config() {
   fi
   chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
 }
-_check_jasypt_salt() {
-  if [ ! -e ${_jasypt_salt_output} ]; then
-    _generate_random16_pwd | base64 >${_jasypt_salt_output}
-    _info "%s" "生成新的敏感信息加密密码(base64),存放在:【${_jasypt_salt_output}】."
+_jasypt_encrypt() {
+  docker run --rm $JASYPT_ENCODER_IMAGE $1 $2
+}
+_format_template_encrypt_word() {
+  local jasypt_password=$1
+  local mysql_password=$2
+  docker pull $JASYPT_ENCODER_IMAGE >/dev/null 2>&1
+
+  local enc_mysql_password="$(_jasypt_encrypt "${jasypt_password}" "${mysql_password}")"
+  #动态加密mysql密码
+  sed -i "s| password: -MYSQL ENC-| password: ENC(${enc_mysql_password})|" ${TEMPLATE_DIR}/application.yml.template >/dev/null 2>&1
+}
+
+_check_jasypt_password() {
+  if [ -z "$JASYPT_PASSWORD" ]; then
+    if [ ! -e ${JASYPT_SECRET} ]; then
+      _error "%s\n - %s\n - %s\n" "未找到敏感信息加密密码!请参考以下任一方式:" "使用命令行参数: bash install.sh --password=[密码的base64格式]." "将密码的base64格式放在文件[${JASYPT_SECRET}]"
+      exit 1
+    fi
+    JASYPT_PASSWORD="$(cat ${JASYPT_SECRET})"
+  else
+    _info "%s:[%s*****]" "使用自定义的敏感信息加密密码" "${JASYPT_PASSWORD:0:6}"
   fi
 }
 _format_compose_file() {
@@ -212,7 +220,7 @@ _format_compose_file() {
   _port=$(cat config | grep -m 1 _port | awk -F= '{print $2}')
   _port_websocket=$(cat config | grep _port_websocket | awk -F= '{print $2}')
 
-    _java_options+=" -Djasypt.encryptor.password=$(base64 -d ${_jasypt_salt_output})"
+  _java_options+=" -Djasypt.encryptor.password=$(echo "${JASYPT_PASSWORD}" | base64 -d)"
 
   sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
     -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
@@ -225,7 +233,7 @@ _format_compose_file() {
     ${TEMPLATE_DIR}/docker-compose.yml.template >${OUTPUT_DIR}/docker-compose.yml
 }
 
-_make_secret_home() {
+_check_and_make_secret_home() {
   if [ ! -e "${SECRET_ROOT}" ]; then
     mkdir -p -m 600 ${SECRET_ROOT}
     chown ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT}
@@ -247,19 +255,27 @@ _make_deploy_home() {
 }
 
 before_start_services() {
-  MYSQL_DATABASE_DATA_VOLUME="${OUTPUT_DIR##*/}_one_db_data"
-  docker volume ls | grep $MYSQL_DATABASE_DATA_VOLUME >/dev/null 2>&1
-  if [ $? -ne 0 -o ! -d "/var/lib/docker/volumes/${MYSQL_DATABASE_DATA_VOLUME}/_data/mysql" ]; then
-    _need_to_init="true"
-  fi
+  _check_and_install_docker
+  _check_and_install_docker_compose
+  _check_and_create_app_users
+  _check_and_make_secret_home
 
-  if [ -n "$_need_to_init" ]; then
-    _init_mysql_data "colorlightwzg/one-mysql:${_one_mysql_tag}" "$MYSQL_DATABASE_DATA_VOLUME"
-    #todo 可以加个探测
+  _check_jasypt_password
+
+  #first deploy
+  local mysql_db_data_volume="${OUTPUT_DIR##*/}_one_db_data"
+  docker volume ls | grep $mysql_db_data_volume >/dev/null 2>&1
+  if [ $? -ne 0 -o ! -d "/var/lib/docker/volumes/${mysql_db_data_volume}/_data/mysql" ]; then
+    _init_mysql_data "colorlightwzg/one-mysql:$(cat config | grep -m 1 _one_mysql | awk -F= '{print $2}')" "$mysql_db_data_volume"
     _after_init_mysql_data
+    _format_template_encrypt_word "$(echo "${JASYPT_PASSWORD}" | base64 -d)" "$(base64 -d $MYSQL_SECRET)"
   fi
-}
 
+  #print from template
+  _make_deploy_home
+  _format_app_config
+  _format_compose_file
+}
 
 start_services() {
   _info "%s" "服务启动中..."
@@ -273,29 +289,46 @@ after_start_services() {
     "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx && rm -rf /usr/share/nginx/html/index.html" \
     >/dev/null 2>&1
 
-  _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${_mysql_password_output})"
+  _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
 }
-check_dependencies() {
-  _check_and_install_docker
-  _check_and_install_docker_compose
-  _make_secret_home
-}
-update_configurations() {
-  _check_and_create_app_users
-  _make_deploy_home
-  _check_jasypt_salt
-  _format_app_config
-  _format_compose_file
-}
-
 _MAIN() {
-  check_dependencies
-  update_configurations
-
   before_start_services
   start_services
   after_start_services
   _info "%s" "Deploy Colorlight Cloud platform successfully!"
 }
 
+ARGS=$(getopt -o p:r --long password:,renew: -- "$@")
+eval set -- "${ARGS}"
+while :; do
+  case $1 in
+  -p | --password)
+    JASYPT_PASSWORD=$2
+    shift
+    ;;
+  -r | --renew)
+    exec sh ssl_renew_letsencrypt.sh
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    _error "%s" "Unknown param $1"
+    exit 1
+    ;;
+  esac
+  shift
+done
+
+target_dir=$1
+if [ "$target_dir" ]; then
+  if [ -d "$target_dir" ]; then
+    OUTPUT_DIR=$(realpath ${target_dir})/clt_deploy
+    _info "%s" "用户指定部署目录 ：${OUTPUT_DIR}"
+  else
+    _error "%s" "Usage : $0 [部署目录的位置]"
+    exit 1
+  fi
+fi
 _MAIN "$@"
