@@ -87,7 +87,7 @@ spring:
       timeout: 20000
   datasource:
     username: ENC(reR04sN5yTKHJ17tymfIgg==)
-    password: ENC(MnU/1ohkhkOX1/Vx0/Rw0kU7iOGGCm2k)
+    password: -MYSQL ENC-
     url: ENC(DHnNCeOo4Qv1FzO9jsaWHHrsoKaKjACYzn2rHNwAzR3UGEqCX/P2C0Efn7UNTkwBqzJwPDlEoT1iepxFTzkrhEvDqsoQj8L3Gw9EFOmoDQxgNggeRPeNtSZAp06nIrM744CuqvUNZX8=)
     hikari:
       connection-timeout: 20000
