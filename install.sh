@@ -9,11 +9,12 @@ COLORLIGHT_GROUP=colorlight
 COLORLIGHT_GROUP_GID=3991
 MYSQL_USER=mysql
 NGINX_USER=www-data
-
+NGINX_GROUP=www-data
 #secret
 SECRET_ROOT=/usr/local/etc/colorlight
 MYSQL_SECRET=${SECRET_ROOT}/mysql.secret
 JASYPT_SECRET=${SECRET_ROOT}/jasypt.secret
+AES_SECRET=${SECRET_ROOT}/aes.secret
 
 CCLOUD_SQL_INIT_JOB_IMAGE=colorlightwzg/ccloud-sql-init-job:latest
 JASYPT_ENCODER_IMAGE=colorlightwzg/jasypt-encoder:2.1.1
@@ -62,9 +63,14 @@ _check_and_create_app_users() {
     _info "%s : [%s]" "Create user" "$MYSQL_USER"
   fi
 
+  egrep "$NGINX_GROUP" /etc/group >&/dev/null
+  if [ $? -ne 0 ]; then
+    groupadd NGINX_GROUP
+    _info "%s : [%s]" "Create group" "NGINX_GROUP"
+  fi
   egrep "$NGINX_USER" /etc/passwd >&/dev/null
   if [ $? -ne 0 ]; then
-    useradd $NGINX_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
+    useradd $NGINX_USER -g NGINX_GROUP -m -s /sbin/nologin
     _info "%s : [%s]" "Create user" "$NGINX_USER"
   fi
 }
@@ -199,15 +205,28 @@ _format_template_encrypt_word() {
   sed -i "s| password: -MYSQL ENC-| password: ENC(${enc_mysql_password})|" ${TEMPLATE_DIR}/application.yml.template >/dev/null 2>&1
 }
 
-_check_jasypt_password() {
+_check_secret() {
   if [ -z "$JASYPT_PASSWORD" ]; then
     if [ ! -e ${JASYPT_SECRET} ]; then
-      _error "%s\n - %s\n - %s\n" "未找到敏感信息加密密码!请参考以下任一方式:" "使用命令行参数: bash install.sh --password=[密码的base64格式]." "将密码的base64格式放在文件[${JASYPT_SECRET}]"
+      _error "%s\n - %s\n - %s\n" "未找到配置加密密码!请参考以下任一方式:" "使用命令行参数: bash install.sh --password=[密码的base64格式]." "将密码的base64格式放在文件[${JASYPT_SECRET}]"
       exit 1
     fi
     JASYPT_PASSWORD="$(cat ${JASYPT_SECRET})"
   else
-    _info "%s:[%s*****]" "使用自定义的敏感信息加密密码" "${JASYPT_PASSWORD:0:6}"
+    _info "%s:[%s*****]" "使用自定义的配置信息加密密码" "${JASYPT_PASSWORD:0:6}"
+  fi
+  if [ -z "$AES_PASSWORD" ]; then
+    if [ ! -e ${AES_SECRET} ]; then
+      _error "%s\n - %s\n - %s\n" "未找到敏感信息加密密码!请参考以下任一方式:" "使用命令行参数: bash install.sh --aes-key=[密码的base64格式]." "将密码的base64格式放在文件[${AES_SECRET}]"
+      exit 1
+    fi
+    AES_PASSWORD="$(cat ${AES_SECRET})"
+  else
+    if [ -e ${AES_SECRET} ]; then
+        mv "${AES_SECRET}" "${AES_SECRET}.bk"
+    fi
+    echo ${AES_PASSWORD} > ${AES_SECRET}
+    _info "%s:[%s*****]" "使用自定义的敏感信息加密密码" "${AES_PASSWORD:0:6}"
   fi
 }
 _format_compose_file() {
@@ -221,6 +240,7 @@ _format_compose_file() {
   _port_websocket=$(cat config | grep _port_websocket | awk -F= '{print $2}')
 
   _java_options+=" -Djasypt.encryptor.password=$(echo "${JASYPT_PASSWORD}" | base64 -d)"
+  _java_options+=" -Dclt.aes.key=$(echo "${AES_PASSWORD}" | base64 -d)"
 
   sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
     -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
@@ -238,7 +258,7 @@ _check_and_make_secret_home() {
     mkdir -p ${SECRET_ROOT}
   fi
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1
-  chown 600 -R ${SECRET_ROOT} >/dev/null 2>&1
+  chmod 600 -R ${SECRET_ROOT} >/dev/null 2>&1
 }
 
 _make_deploy_home() {
@@ -248,7 +268,8 @@ _make_deploy_home() {
   #nginx要属于root
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} &&
     chmod 600 ${OUTPUT_DIR}/nginx &&
-    chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf
+    chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf &&
+    chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx
   chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
@@ -261,7 +282,7 @@ before_start_services() {
   _check_and_create_app_users
   _check_and_make_secret_home
 
-  _check_jasypt_password
+  _check_secret
 
   #first deploy
   local mysql_db_data_volume="${OUTPUT_DIR##*/}_one_db_data"
@@ -291,6 +312,8 @@ after_start_services() {
     >/dev/null 2>&1
 
   _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1
+  chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
 }
 _MAIN() {
   before_start_services
@@ -299,12 +322,16 @@ _MAIN() {
   _info "%s" "Deploy Colorlight Cloud platform successfully!"
 }
 
-ARGS=$(getopt -o p:r --long password:,renew: -- "$@")
+ARGS=$(getopt -o p:r,a: --long password:,renew,aes-key: -- "$@")
 eval set -- "${ARGS}"
 while :; do
   case $1 in
   -p | --password)
     JASYPT_PASSWORD=$2
+    shift
+    ;;
+  -a | --aes-key)
+    AES_PASSWORD=$2
     shift
     ;;
   -r | --renew)
