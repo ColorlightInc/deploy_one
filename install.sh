@@ -326,7 +326,7 @@ after_start_services() {
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
-  chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data && \
+  chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
   docker restart one-nginx >/dev/null 2>&1
 
   rm "${OUTPUT_DIR}"/docker-compose.yml

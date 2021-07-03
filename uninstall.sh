@@ -26,10 +26,14 @@ _close_containers() {
 _rm_network() {
   docker network rm clt_deploy_one-nw >/dev/null 2>&1
 }
-
+_rm_volumes() {
+  docker volume rm clt_deploy_nginx_log_data clt_deploy_spring_ws_log clt_deploy_spring_redis_log clt_deploy_spring_log >/dev/null 2>&1
+}
 echo "正在关闭服务..."
 if [ -d "$OUTPUT_DIR" ]; then
 #    cd ${OUTPUT_DIR} && docker-compose down
+    _close_containers
+    _rm_network
     echo "正在删除${OUTPUT_DIR}部署目录..."
     rm -rf ${OUTPUT_DIR}
 fi
