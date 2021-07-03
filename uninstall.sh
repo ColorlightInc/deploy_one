@@ -20,10 +20,16 @@ if [ ! -d "$OUTPUT_DIR" ]; then
     echo "ERROR:目标部署目录不存在 ：${OUTPUT_DIR}"
     exit 1
 fi
+_close_containers() {
+  docker rm -f one-nginx one-ws one-app one-redis one-redis-db one-zk one-mysql >/dev/null 2>&1
+}
+_rm_network() {
+  docker network rm clt_deploy_one-nw >/dev/null 2>&1
+}
 
 echo "正在关闭服务..."
 if [ -d "$OUTPUT_DIR" ]; then
-    cd ${OUTPUT_DIR} && docker-compose down
+#    cd ${OUTPUT_DIR} && docker-compose down
     echo "正在删除${OUTPUT_DIR}部署目录..."
     rm -rf ${OUTPUT_DIR}
 fi

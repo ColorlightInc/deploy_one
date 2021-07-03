@@ -139,7 +139,7 @@ _init_mysql_data() {
   -v ${_mysql_data_volume}:/var/lib/mysql \
   --name init-data \
   --network one-nw \
-  ${_mysql_docker_image} && \
+  ${_mysql_docker_image} >/dev/null 2>&1 && \
   sleep 60
 
   echo ${_password} | base64 >${MYSQL_SECRET}
@@ -325,9 +325,11 @@ after_start_services() {
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
-#  chmod 600 -R ${OUTPUT_DIR}/nginx && \
+  chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
   chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data && \
   docker restart one-nginx >/dev/null 2>&1
+
+  rm "${OUTPUT_DIR}"/docker-compose.yml
 }
 MAIN() {
   before_start_services && \
