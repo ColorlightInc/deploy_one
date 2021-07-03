@@ -173,7 +173,10 @@ _format_app_config() {
   _port=$(cat config | grep -m 1 _port | awk -F= '{print $2}')
   _open_ssl=$(cat config | grep _open_ssl | awk -F= '{print $2}')
   _port_websocket=$(cat config | grep _port_websocket | awk -F= '{print $2}')
-
+  _nginx_allow_cidr=$(cat config | grep _nginx_allow_cidr | awk -F= '{print $2}')
+  if [ ! "${_nginx_allow_cidr}" ]; then
+      _nginx_allow_cidr=all
+  fi
   if [ -z $_address ]; then
     _address=$(curl -s --connect-timeout 10 -m 20 curl http://members.3322.org/dyndns/getip)
     if [ $? -ne 0 ]; then
@@ -183,7 +186,9 @@ _format_app_config() {
   fi
 
   if [ $_open_ssl = 'true' ]; then
-    sed -e "s|listen 9999;|listen ${_port_websocket};|g" -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template >${OUTPUT_DIR}/nginx/myconf.conf
+    sed -e "s|listen 9999;|listen ${_port_websocket};|g" \
+      -e "s|allow NGINX_ALLOW; deny all;|allow ${_nginx_allow_cidr}; deny all;|g" \
+      -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template >${OUTPUT_DIR}/nginx/myconf.conf
     sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${TEMPLATE_DIR}/application.yml.template >${OUTPUT_DIR}/app/application.yml
     _make_certificate_dir ${_address}
   else
@@ -275,7 +280,9 @@ _make_deploy_home() {
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
-
+_docker_nginx_exec() {
+  docker exec -i one-nginx "$@"
+}
 before_start_services() {
   _check_and_install_docker
   _check_and_install_docker_compose
@@ -307,9 +314,8 @@ after_start_services() {
   _info "%s" "正在检查初始数据..."
   sleep 5
   #华为红线nginx扫描 3.4
-  docker exec -i one-nginx bash -c \
-    "sed -i 's/daily/weekly/' /etc/logrotate.d/nginx && sed -i 's/rotate 52/rotate 13/' /etc/logrotate.d/nginx && rm -rf /usr/share/nginx/html/index.html" \
-    >/dev/null 2>&1
+  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
+#  _docker_nginx_exec bash -c ""
 
   _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1

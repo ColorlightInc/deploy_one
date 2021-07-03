@@ -4,6 +4,7 @@ _address=172.31.2.139
 _port=80
 _open_ssl=true
 _port_websocket=8443
+_nginx_allow_cidr=192.168.1.0/16
 
 #docker services image version
 #docker镜像版本配置

@@ -22,10 +22,6 @@ server {
     ssl_session_timeout 5m;
     ssl_session_cache shared:SSL:1m;
 
-    #华为红线nginx扫描4.1.6,HW 7.5
-    ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-    ssl_ecdh_curve brainpoolP512r1;
-
     #ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     #华为红线nginx扫描4.1.4，但是盒子需要1.1
     ssl_protocols TLSv1.2 TLSv1.3;
@@ -64,8 +60,7 @@ server {
     }
     location / {
           #HW 2.7
-          deny  172.31.1.1;
-          allow 172.31.1.0/16;
+          allow NGINX_ALLOW; deny all;
           index  index.html index.htm index.php;
           root /var/www/html;
           try_files $uri $uri/ /index.html;
@@ -88,6 +83,7 @@ server {
           proxy_set_header X-Real-IP      $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
     }
     #登录
     location /wp-login.php {
@@ -105,6 +101,7 @@ server {
           proxy_set_header X-Real-IP      $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
     }
     #静态资源（截图）
     location  /wp-content/uploads/ {
@@ -138,6 +135,7 @@ server {
           proxy_set_header X-Real-IP      $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_pass http://backup.lednets.com:3000;
+          allow NGINX_ALLOW; deny all;
     }
     #获取截图走app
     location /wp-content/uploads/screenshot/ {
@@ -155,6 +153,7 @@ server {
           proxy_set_header X-Real-IP      $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
     }
     #洲明
     location /webuser/domain/ {
@@ -171,7 +170,7 @@ server {
          proxy_set_header X-Real-IP      $remote_addr;
          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
          proxy_pass http://one-app:8080;
-         allow 172.31.2.133; deny all;
+         allow NGINX_ALLOW; deny all;
     }
     #前端websocket
     location /ColorWebSocket  {
@@ -182,6 +181,7 @@ server {
          proxy_set_header Connection "Upgrade";
          proxy_set_header X-real-ip $remote_addr;
          proxy_set_header X-Forwarded-For $remote_addr;
+         allow NGINX_ALLOW; deny all;
     }
     #盒子websocket
     location /ColorWebSocket/websocket/chat  {
@@ -192,5 +192,6 @@ server {
          proxy_set_header Connection "Upgrade";
          proxy_set_header X-real-ip $remote_addr;
          proxy_set_header X-Forwarded-For $remote_addr;
+         allow NGINX_ALLOW; deny all;
     }
 }
