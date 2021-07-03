@@ -139,7 +139,8 @@ _init_mysql_data() {
   -v ${_mysql_data_volume}:/var/lib/mysql \
   --name init-data \
   --network one-nw \
-  ${_mysql_docker_image} >/dev/null 2>&1 && sleep 60
+  ${_mysql_docker_image} && \
+  sleep 60
 
   echo ${_password} | base64 >${MYSQL_SECRET}
   _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${MYSQL_SECRET}】"
@@ -196,6 +197,7 @@ _format_app_config() {
     sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template >${OUTPUT_DIR}/app/application.yml
   fi
   chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
+  chown ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx/myconf.conf
 }
 _jasypt_encrypt() {
   docker run --rm $JASYPT_ENCODER_IMAGE $1 $2
@@ -323,7 +325,7 @@ after_start_services() {
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
-  chmod 600 -R ${OUTPUT_DIR}/nginx && \
+#  chmod 600 -R ${OUTPUT_DIR}/nginx && \
   chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data && \
   docker restart one-nginx >/dev/null 2>&1
 }

@@ -4,11 +4,11 @@ _address=172.31.2.139
 _port=80
 _open_ssl=true
 _port_websocket=8443
-_nginx_allow_cidr=192.168.1.0/16
+_nginx_allow_cidr=192.168.0.0/16
 
 #docker services image version
 #docker镜像版本配置
-_one_app=unismart2
+_one_app=unismart0702
 _one_nginx=unismart5
 _one_redis=unismart0625
 _one_ws=unismart
