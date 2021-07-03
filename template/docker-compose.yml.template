@@ -118,7 +118,6 @@ services:
         max-size: "5m"
         max-file: "10"
   one-nginx:
-    privileged: true
     image: colorlightwzg/one-nginx:TAG
     container_name: one-nginx
     ports:

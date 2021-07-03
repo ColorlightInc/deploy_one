@@ -65,12 +65,12 @@ _check_and_create_app_users() {
 
   egrep "$NGINX_GROUP" /etc/group >&/dev/null
   if [ $? -ne 0 ]; then
-    groupadd NGINX_GROUP
-    _info "%s : [%s]" "Create group" "NGINX_GROUP"
+    groupadd $NGINX_GROUP
+    _info "%s : [%s]" "Create group" "$NGINX_GROUP"
   fi
   egrep "$NGINX_USER" /etc/passwd >&/dev/null
   if [ $? -ne 0 ]; then
-    useradd $NGINX_USER -g NGINX_GROUP -m -s /sbin/nologin
+    useradd $NGINX_USER -g $NGINX_GROUP -m -s /sbin/nologin
     _info "%s : [%s]" "Create user" "$NGINX_USER"
   fi
 }
@@ -134,12 +134,12 @@ _init_mysql_data() {
   local _password=$(_generate_random16_pwd)
 
   docker run --restart=always -d \
-    -e MYSQL_ROOT_PASSWORD=${_password} \
-    -e MYSQL_DATABASE=${_database} \
-    -v ${_mysql_data_volume}:/var/lib/mysql \
-    --name init-data \
-    --network one-nw \
-    ${_mysql_docker_image} >/dev/null 2>&1 && sleep 120
+  -e MYSQL_ROOT_PASSWORD=${_password} \
+  -e MYSQL_DATABASE=${_database} \
+  -v ${_mysql_data_volume}:/var/lib/mysql \
+  --name init-data \
+  --network one-nw \
+  ${_mysql_docker_image} >/dev/null 2>&1 && sleep 60
 
   echo ${_password} | base64 >${MYSQL_SECRET}
   _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${MYSQL_SECRET}】"
@@ -160,9 +160,9 @@ _run_ccloud_sql_init_job() {
   docker pull ${CCLOUD_SQL_INIT_JOB_IMAGE} >/dev/null 2>&1 &&
     docker volume create ${_container_log_volume} >/dev/null 2>&1 &&
     docker run --rm \
-      -v ${_container_log_volume}:/out \
-      --network ${_container_network} \
-      ${CCLOUD_SQL_INIT_JOB_IMAGE} --password=${_password} --database=${_database} --host=${_host} >/dev/null 2>&1
+  -v ${_container_log_volume}:/out \
+  --network ${_container_network} \
+  ${CCLOUD_SQL_INIT_JOB_IMAGE} --password=${_password} --database=${_database} --host=${_host} >/dev/null 2>&1
 
   cat /var/lib/docker/volumes/${_container_log_volume}/_data/log &&
     docker volume rm ${_container_log_volume} >/dev/null 2>&1
@@ -175,7 +175,7 @@ _format_app_config() {
   _port_websocket=$(cat config | grep _port_websocket | awk -F= '{print $2}')
   _nginx_allow_cidr=$(cat config | grep _nginx_allow_cidr | awk -F= '{print $2}')
   if [ ! "${_nginx_allow_cidr}" ]; then
-      _nginx_allow_cidr=all
+    _nginx_allow_cidr=all
   fi
   if [ -z $_address ]; then
     _address=$(curl -s --connect-timeout 10 -m 20 curl http://members.3322.org/dyndns/getip)
@@ -187,8 +187,8 @@ _format_app_config() {
 
   if [ $_open_ssl = 'true' ]; then
     sed -e "s|listen 9999;|listen ${_port_websocket};|g" \
-      -e "s|allow NGINX_ALLOW; deny all;|allow ${_nginx_allow_cidr}; deny all;|g" \
-      -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template >${OUTPUT_DIR}/nginx/myconf.conf
+    -e "s|allow NGINX_ALLOW; deny all;|allow ${_nginx_allow_cidr}; deny all;|g" \
+    -e "s|AAAA|${_address}|g" ${TEMPLATE_DIR}/ssl_myconf.conf.template >${OUTPUT_DIR}/nginx/myconf.conf
     sed -e "s|server-url: AAAA|server_url: https://${_address}|g" -e "s|corPort: 8888|corPort: 443|g" ${TEMPLATE_DIR}/application.yml.template >${OUTPUT_DIR}/app/application.yml
     _make_certificate_dir ${_address}
   else
@@ -200,6 +200,7 @@ _format_app_config() {
 _jasypt_encrypt() {
   docker run --rm $JASYPT_ENCODER_IMAGE $1 $2
 }
+#注意！如果第一次部署失败，这个地方不会复原，需要手动改app配置模板的数据库密码
 _format_template_encrypt_word() {
   local jasypt_password=$1
   local mysql_password=$2
@@ -228,9 +229,9 @@ _check_secret() {
     AES_PASSWORD="$(cat ${AES_SECRET})"
   else
     if [ -e ${AES_SECRET} ]; then
-        mv "${AES_SECRET}" "${AES_SECRET}.bk"
+      mv "${AES_SECRET}" "${AES_SECRET}.bk"
     fi
-    echo ${AES_PASSWORD} > ${AES_SECRET}
+    echo ${AES_PASSWORD} >${AES_SECRET}
     _info "%s:[%s*****]" "使用自定义的敏感信息加密密码" "${AES_PASSWORD:0:6}"
   fi
 }
@@ -248,14 +249,14 @@ _format_compose_file() {
   _java_options+=" -Dclt.aes.key=$(echo "${AES_PASSWORD}" | base64 -d)"
 
   sed -e "s| colorlightwzg/one-mysql:TAG| colorlightwzg/one-mysql:${_one_mysql_tag}| g" \
-    -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
-    -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
-    -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
-    -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
-    -e "s| JAVA_TOOL_OPTIONS: -| JAVA_TOOL_OPTIONS: ${_java_options}| g" \
-    -e "s| - PORT_80:80| - ${_port}:80| g" \
-    -e "s| - PORT_WS:8443| - ${_port_websocket}:8443| g" \
-    ${TEMPLATE_DIR}/docker-compose.yml.template >${OUTPUT_DIR}/docker-compose.yml
+  -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
+  -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
+  -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
+  -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
+  -e "s| JAVA_TOOL_OPTIONS: -| JAVA_TOOL_OPTIONS: ${_java_options}| g" \
+  -e "s| - PORT_80:80| - ${_port}:80| g" \
+  -e "s| - PORT_WS:8443| - ${_port_websocket}:8443| g" \
+  ${TEMPLATE_DIR}/docker-compose.yml.template >${OUTPUT_DIR}/docker-compose.yml
 }
 
 _check_and_make_secret_home() {
@@ -314,17 +315,22 @@ after_start_services() {
   _info "%s" "正在检查初始数据..."
   sleep 5
   #华为红线nginx扫描 3.4
-  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
-#  _docker_nginx_exec bash -c ""
+#  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
+  #  _docker_nginx_exec bash -c ""
 
   _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1
+
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
+  chmod 600 -R ${OUTPUT_DIR}/nginx && \
+  chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data && \
+  docker restart one-nginx >/dev/null 2>&1
 }
-_MAIN() {
-  before_start_services
-  start_services
-  after_start_services
+MAIN() {
+  before_start_services && \
+  start_services && \
+  after_start_services && \
   _info "%s" "Deploy Colorlight Cloud platform successfully!"
 }
 
@@ -365,4 +371,4 @@ if [ "$target_dir" ]; then
     exit 1
   fi
 fi
-_MAIN "$@"
+MAIN "$@"
