@@ -34,6 +34,7 @@ if [ -d "$OUTPUT_DIR" ]; then
 #    cd ${OUTPUT_DIR} && docker-compose down
     _close_containers
     _rm_network
+    _rm_volumes
     echo "正在删除${OUTPUT_DIR}部署目录..."
     rm -rf ${OUTPUT_DIR}
 fi

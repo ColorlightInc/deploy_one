@@ -73,6 +73,7 @@ _check_and_create_app_users() {
     useradd $NGINX_USER -g $NGINX_GROUP -m -s /sbin/nologin
     _info "%s : [%s]" "Create user" "$NGINX_USER"
   fi
+  usermod -aG $COLORLIGHT_GROUP $NGINX_USER
 }
 _check_and_install_docker() {
   docker -v
@@ -327,6 +328,9 @@ after_start_services() {
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
   chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
+  chmod 777 -R /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data
+
   docker restart one-nginx >/dev/null 2>&1
 
   rm "${OUTPUT_DIR}"/docker-compose.yml
