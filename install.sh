@@ -8,8 +8,6 @@ COLORLIGHT_USER_UID=3991
 COLORLIGHT_GROUP=colorlight
 COLORLIGHT_GROUP_GID=3991
 MYSQL_USER=mysql
-NGINX_USER=www-data
-NGINX_GROUP=www-data
 #secret
 SECRET_ROOT=/usr/local/etc/colorlight
 MYSQL_SECRET=${SECRET_ROOT}/mysql.secret
@@ -63,17 +61,6 @@ _check_and_create_app_users() {
     _info "%s : [%s]" "Create user" "$MYSQL_USER"
   fi
 
-  egrep "$NGINX_GROUP" /etc/group >&/dev/null
-  if [ $? -ne 0 ]; then
-    groupadd $NGINX_GROUP
-    _info "%s : [%s]" "Create group" "$NGINX_GROUP"
-  fi
-  egrep "$NGINX_USER" /etc/passwd >&/dev/null
-  if [ $? -ne 0 ]; then
-    useradd $NGINX_USER -g $NGINX_GROUP -m -s /sbin/nologin
-    _info "%s : [%s]" "Create user" "$NGINX_USER"
-  fi
-  usermod -aG $COLORLIGHT_GROUP $NGINX_USER
 }
 _check_and_install_docker() {
   docker -v
@@ -141,7 +128,7 @@ _init_mysql_data() {
   --name init-data \
   --network one-nw \
   ${_mysql_docker_image} >/dev/null 2>&1 && \
-  sleep 60
+  sleep 150
 
   echo ${_password} | base64 >${MYSQL_SECRET}
   _info "%s" "数据库数据初始化完成! 数据库密码(base64)存放在:【${MYSQL_SECRET}】"
@@ -198,7 +185,7 @@ _format_app_config() {
     sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template >${OUTPUT_DIR}/app/application.yml
   fi
   chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
-  chown ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx/myconf.conf
+  chown ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx/myconf.conf
 }
 _jasypt_encrypt() {
   docker run --rm $JASYPT_ENCODER_IMAGE $1 $2
@@ -278,7 +265,7 @@ _make_deploy_home() {
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} &&
     chmod 600 ${OUTPUT_DIR}/nginx &&
     chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf &&
-    chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx
+    chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx
   chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
   cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
@@ -325,9 +312,9 @@ after_start_services() {
 
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
-  chown -R ${NGINX_USER}:${NGINX_GROUP} ${OUTPUT_DIR}/nginx && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx && \
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
-  chown -R ${NGINX_USER}:${NGINX_GROUP} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
   chmod 777 -R /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
   chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data
 
