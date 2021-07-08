@@ -1,0 +1,40 @@
+my:
+  connection:
+    session-time: 600000
+    capacity: 300
+    screen-shot-queue-capacity: 6
+    comment-queue-capacity: 1
+server:
+  port: 8894
+spring:
+  application:
+    name: one-websocket
+  dubbo:
+    registry: zookeeper://one-zk:2181
+    protocol:
+      name: dubbo
+      port: 20894
+    consumer:
+      timeout: 20000
+    provider:
+      timeout: 20000
+logging:
+  level:
+    root: WARN
+    web:  ERROR
+    org:
+      springframework:
+        security: ERROR
+        web: ERROR
+        boot:
+          actuate:
+            endpoint:
+              web:
+                servlet:
+                  AbstractWebMvcEndpointHandlerMapping: OFF
+                  WebMvcEndpointHandlerMapping: OFF
+    com:
+      example:
+        one:
+          websocket: INFO
+  file: logs/websocket-logging.log

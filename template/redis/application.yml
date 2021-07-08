@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: one-redis
+  dubbo:
+    registry: zookeeper://one-zk:2181
+    protocol:
+      name: dubbo
+      port: 20886
+    provider:
+      timeout: 20000
+  redis:
+    database: 2
+    host: one-redis-db
+    port: 6379
+    password: ENC(MSN1iHTkdDZN4EgEcxZeR5zoOCQM7pmEPhaTBJUe0XKO5gWDhr8RFKQvnUG5i3EKw3FqxZVAJQo=)
+    timeout: 3000
+server:
+  port: 8180
+  tomcat:
+    uri-encoding: UTF-8
+logging:
+  level:
+    root: WARN
+    web:  WARN
+    com:
+      example:
+        one:
+          redis:
+            service:
+              term: INFO
+  file: logs/spring-boot-logging.log
+jasypt:
+  encryptor:
+    password: QDOVbulDHrzGBWNGCqjSS4qzlDAnkDOz0BtHkh6agrQ=
