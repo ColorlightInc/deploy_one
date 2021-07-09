@@ -16,8 +16,8 @@ services:
         max-size: "5m"
         max-file: "10"
   one-redis-db:
-    user: 999:999
-    image: redis:latest
+    user: 3991:3991
+    image: colorlightwzg/redis:unismart
     container_name: one-redis-db
     privileged: true
     restart: always
@@ -34,7 +34,7 @@ services:
         max-size: "5m"
         max-file: "10"
   one-mysql:
-    user: 999:999
+    user: 3991:3991
     image: colorlightwzg/one-mysql:TAG
     container_name: one-mysql
     #env_file:

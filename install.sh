@@ -54,12 +54,12 @@ _check_and_create_app_users() {
     useradd $COLORLIGHT_USER -g $COLORLIGHT_GROUP -u $COLORLIGHT_USER_UID -m -s /sbin/nologin
     _info "%s : [%s]" "Create user" "$COLORLIGHT_USER"
   fi
-
-  egrep "$MYSQL_USER" /etc/passwd >&/dev/null
-  if [ $? -ne 0 ]; then
-    useradd $MYSQL_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
-    _info "%s : [%s]" "Create user" "$MYSQL_USER"
-  fi
+#
+#  egrep "$MYSQL_USER" /etc/passwd >&/dev/null
+#  if [ $? -ne 0 ]; then
+#    useradd $MYSQL_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
+#    _info "%s : [%s]" "Create user" "$MYSQL_USER"
+#  fi
 
 }
 _check_and_install_docker() {
@@ -116,12 +116,14 @@ _init_mysql_data() {
   _info "%s" "正在初始化数据库数据...请稍等几分钟(请不要操作以免导致数据库初始化失败)"
 
   docker network create one-nw >/dev/null 2>&1
-  docker volume create ${_mysql_data_volume} >/dev/null 2>&1
+  docker volume create "${_mysql_data_volume}" >/dev/null 2>&1 && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} "${_mysql_data_volume}/_data" >/dev/null 2>&1
 
   local _database=spring
   local _password=$(_generate_random16_pwd)
 
   docker run --restart=always -d \
+  -u root:root \
   -e MYSQL_ROOT_PASSWORD=${_password} \
   -e MYSQL_DATABASE=${_database} \
   -v ${_mysql_data_volume}:/var/lib/mysql \
@@ -260,14 +262,14 @@ _check_and_make_secret_home() {
 _make_deploy_home() {
   _info "%s" "正在初始化Colorlight cloud platform部署目录:$(realpath $CURR_PATH)..."
   mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
-  cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${MYSQL_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/mysql
+  cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/mysql
   #nginx要属于root
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} &&
     chmod 600 ${OUTPUT_DIR}/nginx &&
     chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf &&
     chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx
   chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
-  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis
+  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis && chmod -R 600 ${OUTPUT_DIR}/redis/conf/redis.my.conf
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
 }
