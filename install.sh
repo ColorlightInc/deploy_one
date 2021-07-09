@@ -318,7 +318,8 @@ after_start_services() {
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
   chmod 777 -R /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
+  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_one_redis_data/_data
 
   docker restart one-nginx >/dev/null 2>&1
 
