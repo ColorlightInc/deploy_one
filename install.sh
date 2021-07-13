@@ -255,13 +255,13 @@ _check_and_make_secret_home() {
   if [ ! -e "${SECRET_ROOT}" ]; then
     mkdir -p ${SECRET_ROOT}
   fi
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} >/dev/null 2>&1
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${SECRET_ROOT} >/dev/null 2>&1
   chmod 600 -R ${SECRET_ROOT} >/dev/null 2>&1
 }
 
 _make_deploy_home() {
   _info "%s" "正在初始化Colorlight cloud platform部署目录:$(realpath $CURR_PATH)..."
-  mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} $OUTPUT_DIR
+  mkdir -p $OUTPUT_DIR && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} $OUTPUT_DIR
   cp -r ${TEMPLATE_DIR}/mysql ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/mysql
   #nginx要属于root
   cp -r ${TEMPLATE_DIR}/nginx ${OUTPUT_DIR} &&
@@ -269,9 +269,9 @@ _make_deploy_home() {
     chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf &&
     chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx
   chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
-  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/redis && chmod -R 600 ${OUTPUT_DIR}/redis/conf/redis.my.conf
-  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/ws
-  mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${OUTPUT_DIR}/app
+  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/redis && chmod -R 600 ${OUTPUT_DIR}/redis/conf/redis.my.conf
+  cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/ws
+  mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/app
 }
 _docker_nginx_exec() {
   docker exec -i one-nginx "$@"
@@ -312,14 +312,14 @@ after_start_services() {
 
   _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
 
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} ${SECRET_ROOT} && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx && \
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
   chmod 777 -R /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
-  chown -R ${COLORLIGHT_USER}:${COLORLIGHT_GROUP} /var/lib/docker/volumes/clt_deploy_one_redis_data/_data
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_one_redis_data/_data
 
   docker restart one-nginx >/dev/null 2>&1
 
