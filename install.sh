@@ -269,7 +269,7 @@ _make_deploy_home() {
     chmod 600 ${OUTPUT_DIR}/nginx/nginx.conf &&
     chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx
   chmod 400 ${OUTPUT_DIR}/nginx/ssl/dhparam.pem
-  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/redis && chmod -R 600 ${OUTPUT_DIR}/redis/conf/redis.my.conf
+  cp -r ${TEMPLATE_DIR}/redis ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/redis
   cp -r ${TEMPLATE_DIR}/ws ${OUTPUT_DIR} && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/ws
   mkdir -p ${OUTPUT_DIR}/app && chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/app
 }
