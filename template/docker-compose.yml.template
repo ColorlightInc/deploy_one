@@ -69,7 +69,6 @@ services:
         ipv4_address: 172.109.0.7
     depends_on:
       - one-zk
-      - one-redis-db
     restart: always
     environment:
       PARAMS: -Xmx128m
