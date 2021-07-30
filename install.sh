@@ -116,8 +116,7 @@ _init_mysql_data() {
   _info "%s" "正在初始化数据库数据...请稍等几分钟(请不要操作以免导致数据库初始化失败)"
 
   docker network create one-nw >/dev/null 2>&1
-  docker volume create "${_mysql_data_volume}" >/dev/null 2>&1 && \
-  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} "${_mysql_data_volume}/_data" >/dev/null 2>&1
+  docker volume create "${_mysql_data_volume}" >/dev/null 2>&1
 
   local _database=spring
   local _password=$(_generate_random16_pwd)
@@ -139,6 +138,7 @@ _after_init_mysql_data() {
   _info "%s" "Clear init-data container."
   docker network rm one-nw >/dev/null 2>&1
   docker rm -f init-data >/dev/null 2>&1
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} "${_mysql_data_volume}/_data" >/dev/null 2>&1
 }
 
 #Usage _run_ccloud_sql_init_job [host] [database] [password]
@@ -232,6 +232,7 @@ _format_compose_file() {
   _one_nginx_tag=$(cat config | grep -m 1 _one_nginx | awk -F= '{print $2}')
   _one_redis_tag=$(cat config | grep -m 1 _one_redis | awk -F= '{print $2}')
   _one_ws_tag=$(cat config | grep -m 1 _one_ws | awk -F= '{print $2}')
+  _one_zk_tag=$(cat config | grep -m 1 _one_zk | awk -F= '{print $2}')
   _one_mysql_tag=$(cat config | grep -m 1 _one_mysql | awk -F= '{print $2}')
 
   _port=$(cat config | grep -m 1 _port | awk -F= '{print $2}')
@@ -244,6 +245,7 @@ _format_compose_file() {
   -e "s| colorlightwzg/one-app:TAG| colorlightwzg/one-app:${_one_app_tag}| g" \
   -e "s| colorlightwzg/one-nginx:TAG| colorlightwzg/one-nginx:${_one_nginx_tag}| g" \
   -e "s| colorlightwzg/one-ws:TAG| colorlightwzg/one-ws:${_one_ws_tag}| g" \
+  -e "s| colorlightwzg/zookeeper:TAG| colorlightwzg/zookeeper:${_one_zk_tag}| g" \
   -e "s| colorlightwzg/one-redis:TAG| colorlightwzg/one-redis:${_one_redis_tag}| g" \
   -e "s| JAVA_TOOL_OPTIONS: -| JAVA_TOOL_OPTIONS: ${_java_options}| g" \
   -e "s| - PORT_80:80| - ${_port}:80| g" \
