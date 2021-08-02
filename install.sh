@@ -16,6 +16,7 @@ AES_SECRET=${SECRET_ROOT}/aes.secret
 
 CCLOUD_SQL_INIT_JOB_IMAGE=colorlightwzg/ccloud-sql-init-job:latest
 JASYPT_ENCODER_IMAGE=colorlightwzg/jasypt-encoder:2.1.1
+VOLUME_DIR=/var/lib/docker/volumes
 CURR_PATH=$(pwd)
 OUTPUT_DIR=${CURR_PATH}/clt_deploy
 TEMPLATE_DIR=${CURR_PATH}/template
@@ -138,7 +139,7 @@ _after_init_mysql_data() {
   _info "%s" "Clear init-data container."
   docker network rm one-nw >/dev/null 2>&1
   docker rm -f init-data >/dev/null 2>&1
-  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} "${_mysql_data_volume}/_data" >/dev/null 2>&1
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${VOLUME_DIR}/clt_deploy_one_db_data/_data >/dev/null 2>&1
 }
 
 #Usage _run_ccloud_sql_init_job [host] [database] [password]
@@ -155,7 +156,7 @@ _run_ccloud_sql_init_job() {
   --network ${_container_network} \
   ${CCLOUD_SQL_INIT_JOB_IMAGE} --password=${_password} --database=${_database} --host=${_host} >/dev/null 2>&1
 
-  cat /var/lib/docker/volumes/${_container_log_volume}/_data/log &&
+  cat ${VOLUME_DIR}/${_container_log_volume}/_data/log &&
     docker volume rm ${_container_log_volume} >/dev/null 2>&1
 }
 
@@ -186,6 +187,7 @@ _format_app_config() {
     sed -e "s|listen 8888;|listen ${_port};|g" -e "s|server_name AAAA;|server_name ${_address};|g" ${TEMPLATE_DIR}/myconf.conf.template >${OUTPUT_DIR}/nginx/myconf.conf
     sed -e "s|server-url: AAAA|server_url: http://${_address}|g" -e "s|corPort: 8888|corPort: ${_port}|g" ${TEMPLATE_DIR}/application.yml.template >${OUTPUT_DIR}/app/application.yml
   fi
+  chown ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/app/application.yml
   chmod 600 ${OUTPUT_DIR}/nginx/myconf.conf
   chown ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx/myconf.conf
 }
@@ -289,7 +291,7 @@ before_start_services() {
   #first deploy
   local mysql_db_data_volume="${OUTPUT_DIR##*/}_one_db_data"
   docker volume ls | grep $mysql_db_data_volume >/dev/null 2>&1
-  if [ $? -ne 0 -o ! -d "/var/lib/docker/volumes/${mysql_db_data_volume}/_data/mysql" ]; then
+  if [ $? -ne 0 -o ! -d "${VOLUME_DIR}/${mysql_db_data_volume}/_data/mysql" ]; then
     _init_mysql_data "colorlightwzg/one-mysql:$(cat config | grep -m 1 _one_mysql | awk -F= '{print $2}')" "$mysql_db_data_volume"
     _after_init_mysql_data
     _format_template_encrypt_word "$(echo "${JASYPT_PASSWORD}" | base64 -d)" "$(base64 -d $MYSQL_SECRET)"
@@ -318,9 +320,9 @@ after_start_services() {
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${OUTPUT_DIR}/nginx && \
   chmod 600 -R ${OUTPUT_DIR}/nginx/logrotate && \
-  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_nginx_log_data/_data && \
-  chmod 777 -R /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data && \
-  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} /var/lib/docker/volumes/clt_deploy_spring_uploads_data/_data
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${VOLUME_DIR}/clt_deploy_nginx_log_data/_data && \
+  chmod 777 -R ${VOLUME_DIR}/clt_deploy_spring_uploads_data/_data && \
+  chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${VOLUME_DIR}/clt_deploy_spring_uploads_data/_data
 
   docker restart one-nginx >/dev/null 2>&1
 
