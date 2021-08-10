@@ -10,7 +10,7 @@ system:
 baidu:
   apiKey: ENC(87TX57siP1VjF+49PeaJ8Az+YeA+7ilahLHjn0bgPlaUgFKllkVy/IjVq8d45nP/)
 unilumin:
-  host: 172.31.2.133
+  host: http://358ct35959.zicp.vip
 clt:
   console-log:
     gps: false
@@ -73,6 +73,15 @@ server:
   compression:
     enabled: true
     mime-types: application/json
+CustomOauth2:
+  client:
+    clientId: 12345678
+    clientSecret: 123456
+    authServer: http://358ct35959.zicp.vip
+    # 用于获取访问令牌
+    accessTokenURL: /oauth/token
+    # 用于判断当前用户是否已登录
+    userInfoURL: /webuser/getUserInfo
 spring:
   application:
     name: colorlight-main
