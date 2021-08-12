@@ -55,12 +55,6 @@ _check_and_create_app_users() {
     useradd $COLORLIGHT_USER -g $COLORLIGHT_GROUP -u $COLORLIGHT_USER_UID -m -s /sbin/nologin
     _info "%s : [%s]" "Create user" "$COLORLIGHT_USER"
   fi
-#
-#  egrep "$MYSQL_USER" /etc/passwd >&/dev/null
-#  if [ $? -ne 0 ]; then
-#    useradd $MYSQL_USER -g $COLORLIGHT_GROUP -m -s /sbin/nologin
-#    _info "%s : [%s]" "Create user" "$MYSQL_USER"
-#  fi
 
 }
 _check_and_install_docker() {
@@ -310,9 +304,6 @@ start_services() {
 after_start_services() {
   _info "%s" "正在检查初始数据..."
   sleep 5
-  #华为红线nginx扫描 3.4
-#  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
-  #  _docker_nginx_exec bash -c ""
 
   _run_ccloud_sql_init_job "one-mysql" "spring" "$(base64 -d ${MYSQL_SECRET})"
 
