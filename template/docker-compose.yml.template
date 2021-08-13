@@ -39,6 +39,9 @@ services:
     user: 3991:3991
     image: colorlightwzg/one-app:TAG
     container_name: one-app
+    env_file:
+      - .env
+      - .secret
     environment:
       JAVA_TOOL_OPTIONS: -
     volumes:
@@ -61,6 +64,9 @@ services:
     user: 3991:3991
     image: colorlightwzg/one-redis:TAG
     container_name: one-redis
+    env_file:
+      - .env
+      - /usr/local/etc/colorlight/clt.secret
     volumes:
       - spring_redis_log:/logs
       - ./redis:/var/lib/redis

@@ -8,9 +8,9 @@ file:
 system:
   version: 3.2.8
 baidu:
-  apiKey: ENC(87TX57siP1VjF+49PeaJ8Az+YeA+7ilahLHjn0bgPlaUgFKllkVy/IjVq8d45nP/)
+  apiKey: ${BAIDU_API_KEY:}
 unilumin:
-  host: 172.31.2.133
+  host: ${UNILUMIN_SYSTEM_IP:172.31.2.133}
 clt:
   console-log:
     gps: false
@@ -58,7 +58,7 @@ clt:
     default-string-context: 您的盒子上报数据出现异常，请检查！
 authentication:
   # 双因子认证密钥发行商
-  2faSecretIssuer: ENC(XuPegcMPVTElcFe0QANLKwSURWgs51q3)
+  2faSecretIssuer: ${_2FA_KEY}
   # 窗口大小, 插件默认是 3，现在重置为 1，就是 30 秒
   windowSize: 1
 terminal:
@@ -86,9 +86,10 @@ spring:
     provider:
       timeout: 20000
   datasource:
-    username: ENC(reR04sN5yTKHJ17tymfIgg==)
-    password: -MYSQL ENC-
-    url: ENC(DHnNCeOo4Qv1FzO9jsaWHHrsoKaKjACYzn2rHNwAzR3UGEqCX/P2C0Efn7UNTkwBqzJwPDlEoT1iepxFTzkrhEvDqsoQj8L3Gw9EFOmoDQxgNggeRPeNtSZAp06nIrM744CuqvUNZX8=)
+    username: ${MYSQL_USERNAME}
+    #password: -MYSQL ENC-
+    password: ${MYSQL_PASSWORD}
+    url: ${MYSQL_CONNECT_URL}
     hikari:
       connection-timeout: 20000
       auto-commit: true
@@ -106,9 +107,9 @@ spring:
       max-file-size: 200MB
       enabled: true
   mail:
-    host: smtp.qq.com
-    username: ENC(UODLbn4ejyinkV9Us/X7++xQSxWbB7V5943/bccgm7E=)
-    password: ENC(0jzYOZnWGx+ymevUXF0yDDVIdyNego5TbQAnv8u6yYg=)
+    host: ${SMTP_HOST}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
     properties:
       mail:
         smtp:
