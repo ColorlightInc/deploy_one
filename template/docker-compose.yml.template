@@ -42,8 +42,6 @@ services:
     env_file:
       - .env
       - .secret
-    environment:
-      JAVA_TOOL_OPTIONS: -
     volumes:
       - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads
       - spring_log:/logs
@@ -66,7 +64,7 @@ services:
     container_name: one-redis
     env_file:
       - .env
-      - /usr/local/etc/colorlight/clt.secret
+      - .secret
     volumes:
       - spring_redis_log:/logs
       - ./redis:/var/lib/redis

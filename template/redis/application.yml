@@ -8,12 +8,6 @@ spring:
       port: 20886
     provider:
       timeout: 20000
-  redis:
-    database: 2
-    host: one-redis-db
-    port: 6379
-    password: ENC(MSN1iHTkdDZN4EgEcxZeR5zoOCQM7pmEPhaTBJUe0XKO5gWDhr8RFKQvnUG5i3EKw3FqxZVAJQo=)
-    timeout: 3000
 server:
   port: 8180
   tomcat:
@@ -29,6 +23,3 @@ logging:
             service:
               term: INFO
   file: logs/spring-boot-logging.log
-jasypt:
-  encryptor:
-    password: QDOVbulDHrzGBWNGCqjSS4qzlDAnkDOz0BtHkh6agrQ=

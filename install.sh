@@ -33,7 +33,7 @@ _info() {
 _error() {
   local format=$1
   shift 1
-  printf "%s [ERROR]: ${format}" "$(date --rfc-3339=seconds)" "$@"
+  printf "%s [ERROR]: ${format}\n" "$(date --rfc-3339=seconds)" "$@"
   exit 1
 }
 #aes/cbc/padding5
@@ -46,7 +46,6 @@ _aes_encrypt() {
 _aes_decrypt() {
   docker run --rm $AES_CIPHER_IMAGE "$1" "$2" 2 "$3"
 }
-
 _generate_random16_pwd() {
   local key="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   local num=${#key}
@@ -222,23 +221,23 @@ _check_secret() {
     local secret_md5=$(md5sum "${IDENTITY_FILE}" | awk '{print $1}')
     # shellcheck disable=SC2155
     local origin_secret_md5=$(cat "${SECRET_FILE_MD5}")
-    if [ "${secret_md5}" -ne "${origin_secret_md5}" ]; then
+    if [ "${secret_md5}" != "${origin_secret_md5}" ]; then
       _error "密钥文件md5校验失败!"
     fi
   else
-    md5sum "${IDENTITY_FILE}" >"${SECRET_FILE_MD5}"
+    md5sum "${IDENTITY_FILE}" | awk '{print $1}' >"${SECRET_FILE_MD5}"
     chmod 400 "${SECRET_FILE_MD5}" && chown root:root "${SECRET_FILE_MD5}"
   fi
-  if [ "${IDENTITY_FILE}" -ne "${SECRET_FILE}" ]; then
+  if [ "${IDENTITY_FILE}" != "${SECRET_FILE}" ]; then
     mv "${IDENTITY_FILE}" "${SECRET_FILE}"
   fi
   chmod 400 "${SECRET_FILE}" && chown root:root "${SECRET_FILE}"
   # shellcheck disable=SC2155
-  local root_key=$(grep "root.key" "${SECRET_FILE}" | awk -F= '{print $2}')
+  local root_key=$(base64 -d "${SECRET_FILE}" | grep "root.key" | awk -F= '{print $2}')
   # shellcheck disable=SC2155
-  local root_iv=$(grep "root.iv" "${SECRET_FILE}" | awk -F= '{print $2}')
-  WORK_KEY=$(_aes_decrypt "${root_key}" "${root_iv}" "$(grep "AES.key" "${SECRET_FILE}" | awk -F= '{print $2}')")
-  WORK_IV=$(_aes_decrypt "${root_key}" "${root_iv}" "$(grep "AES.iv" "${SECRET_FILE}" | awk -F= '{print $2}')")
+  local root_iv=$(base64 -d "${SECRET_FILE}" | grep "root.iv" | awk -F= '{print $2}')
+  WORK_KEY=$(_aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.key" | awk -F= '{print $2}')")
+  WORK_IV=$(_aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.iv" | awk -F= '{print $2}')")
 }
 _format_compose_file() {
   _one_app_tag=$(grep -m 1 _one_app config | awk -F= '{print $2}')
@@ -304,7 +303,7 @@ before_start_services() {
 
 start_services() {
   _info "%s" "服务启动中..."
-  base64 -d ${SECRET_FILE} > "${OUTPUT_DIR}/.secret" && chmod 400 "${OUTPUT_DIR}/.secret" && chown root:root "${OUTPUT_DIR}/.secret"
+  base64 -d ${SECRET_FILE} >"${OUTPUT_DIR}/.secret" && chmod 400 "${OUTPUT_DIR}/.secret" && chown root:root "${OUTPUT_DIR}/.secret"
   cd "${OUTPUT_DIR}" && docker-compose down && docker-compose up -d
 }
 
