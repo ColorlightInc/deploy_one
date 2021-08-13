@@ -46,6 +46,28 @@ _aes_encrypt() {
 _aes_decrypt() {
   docker run --rm $AES_CIPHER_IMAGE "$1" "$2" 2 "$3"
 }
+#从文件提取变量值
+#Usage: _get_env file_path key
+_get_env() {
+  local env_file=$1
+  local key=$2
+  #防止value中有=号
+  grep -m 1 "^${key}=" "${env_file}" | awk -F= '{for(i=2;i<NF;i++){v=v""$i"="};print v""$NF}'
+}
+_get_work_key() {
+  # shellcheck disable=SC2155
+  local root_key=$(base64 -d "${SECRET_FILE}" | grep "root.key" | awk -F= '{print $2}')
+  # shellcheck disable=SC2155
+  local root_iv=$(base64 -d "${SECRET_FILE}" | grep "root.iv" | awk -F= '{print $2}')
+  _aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.key" | awk -F= '{for(i=2;i<NF;i++){v=v""$i"="};print v""$NF}')"
+}
+_get_work_iv() {
+  # shellcheck disable=SC2155
+  local root_key=$(base64 -d "${SECRET_FILE}" | grep "root.key" | awk -F= '{print $2}')
+  # shellcheck disable=SC2155
+  local root_iv=$(base64 -d "${SECRET_FILE}" | grep "root.iv" | awk -F= '{print $2}')
+  _aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.iv" | awk -F= '{for(i=2;i<NF;i++){v=v""$i"="};print v""$NF}')"
+}
 _generate_random16_pwd() {
   local key="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   local num=${#key}
@@ -122,11 +144,11 @@ _init_mysql_data() {
   docker volume create "${_mysql_data_volume}" >/dev/null 2>&1
 
   local _database=spring
-  MYSQL_PASSWORD=$(_generate_random16_pwd)
+  local mysql_password=$(_generate_random16_pwd)
 
   docker run --restart=always -d \
   -u root:root \
-  -e MYSQL_ROOT_PASSWORD="${MYSQL_PASSWORD}" \
+  -e MYSQL_ROOT_PASSWORD="${mysql_password}" \
   -e MYSQL_DATABASE=${_database} \
   -v "${_mysql_data_volume}":/var/lib/mysql \
   --name init-data \
@@ -134,7 +156,7 @@ _init_mysql_data() {
   "${_mysql_docker_image}" >/dev/null 2>&1
   sleep 150
 
-  _info "%s" "数据库数据初始化完成! 数据库密码:【${MYSQL_PASSWORD}】"
+  _info "%s" "数据库数据初始化完成! 数据库密码:【${mysql_password}】"
 
   #after init mysql data
   _info "%s" "Clear init-data container."
@@ -144,7 +166,7 @@ _init_mysql_data() {
 
   #reset encode password
   # shellcheck disable=SC2155
-  local encode_mysql_password="$(_aes_encrypt "${WORK_KEY}" "${WORK_IV}" "${MYSQL_PASSWORD}")"
+  local encode_mysql_password="$(_aes_encrypt "$(_get_work_key)" "$(_get_work_iv)" "${mysql_password}")"
   sed -i "s|^MYSQL_PASSWORD=.*$|MYSQL_PASSWORD=ENC(${encode_mysql_password})|" "${TEMPLATE_DIR}/.env"
 }
 
@@ -232,12 +254,6 @@ _check_secret() {
     mv "${IDENTITY_FILE}" "${SECRET_FILE}"
   fi
   chmod 400 "${SECRET_FILE}" && chown root:root "${SECRET_FILE}"
-  # shellcheck disable=SC2155
-  local root_key=$(base64 -d "${SECRET_FILE}" | grep "root.key" | awk -F= '{print $2}')
-  # shellcheck disable=SC2155
-  local root_iv=$(base64 -d "${SECRET_FILE}" | grep "root.iv" | awk -F= '{print $2}')
-  WORK_KEY=$(_aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.key" | awk -F= '{print $2}')")
-  WORK_IV=$(_aes_decrypt "${root_key}" "${root_iv}" "$(base64 -d "${SECRET_FILE}" | grep "AES.iv" | awk -F= '{print $2}')")
 }
 _format_compose_file() {
   _one_app_tag=$(grep -m 1 _one_app config | awk -F= '{print $2}')
@@ -314,7 +330,11 @@ after_start_services() {
   #  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
   #  _docker_nginx_exec bash -c ""
 
-  _run_ccloud_sql_init_job "one-mysql" "spring" "${MYSQL_PASSWORD}"
+  local enc_mysql_password=$(_get_env "${OUTPUT_DIR}/.env" "MYSQL_PASSWORD") \
+  && enc_mysql_password=${enc_mysql_password#*ENC(} && enc_mysql_password=${enc_mysql_password%*)}
+  local mysql_password=$(_aes_decrypt "$(_get_work_key)" "$(_get_work_iv)" "$enc_mysql_password")
+
+  _run_ccloud_sql_init_job "one-mysql" "spring" "${mysql_password}"
 
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${SECRET_ROOT} && \
   chmod 400 -R ${SECRET_ROOT} >/dev/null 2>&1

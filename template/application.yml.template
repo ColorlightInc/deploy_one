@@ -87,7 +87,6 @@ spring:
       timeout: 20000
   datasource:
     username: ${MYSQL_USERNAME}
-    #password: -MYSQL ENC-
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_CONNECT_URL}
     hikari:
@@ -141,3 +140,12 @@ device:
 camera-shot:
   clean:
     time-range: 10 # 摄像头截图自动清理的时间范围，单位天
+CustomOauth2:
+  client:
+    clientId: ${UNILUMIN_OAUTH_CLIENT_ID}
+    clientSecret: ${UNILUMIN_OAUTH_CLIENT_SECRET}
+    authServer: ${unilumin.host}
+    # 用于获取访问令牌
+    accessTokenURL: /oauth/token
+    # 用于判断当前用户是否已登录
+    userInfoURL: /webuser/getUserInfo
