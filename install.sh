@@ -131,7 +131,7 @@ _init_mysql_data() {
   -v "${_mysql_data_volume}":/var/lib/mysql \
   --name init-data \
   --network one-nw \
-  "${_mysql_docker_image}" >/dev/null 2>&1 && \
+  "${_mysql_docker_image}" >/dev/null 2>&1
   sleep 150
 
   _info "%s" "数据库数据初始化完成! 数据库密码:【${MYSQL_PASSWORD}】"
@@ -145,7 +145,7 @@ _init_mysql_data() {
   #reset encode password
   # shellcheck disable=SC2155
   local encode_mysql_password="$(_aes_encrypt "${WORK_KEY}" "${WORK_IV}" "${MYSQL_PASSWORD}")"
-  sed -i "s/^MYSQL_PASSWORD=.*$/MYSQL_PASSWORD=ENC(${encode_mysql_password})/" "${TEMPLATE_DIR}/.env"
+  sed -i "s|^MYSQL_PASSWORD=.*$|MYSQL_PASSWORD=ENC(${encode_mysql_password})|" "${TEMPLATE_DIR}/.env"
 }
 
 #Usage _run_ccloud_sql_init_job [host] [database] [password]
