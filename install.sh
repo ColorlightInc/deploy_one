@@ -326,9 +326,6 @@ start_services() {
 after_start_services() {
   _info "%s" "正在检查初始数据..."
   sleep 5
-  #华为红线nginx扫描 3.4
-  #  _docker_nginx_exec rm -rf /usr/share/nginx/html/index.html >/dev/null 2>&1
-  #  _docker_nginx_exec bash -c ""
 
   local enc_mysql_password=$(_get_env "${OUTPUT_DIR}/.env" "MYSQL_PASSWORD") \
   && enc_mysql_password=${enc_mysql_password#*ENC(} && enc_mysql_password=${enc_mysql_password%*)}

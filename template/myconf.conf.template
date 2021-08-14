@@ -30,7 +30,30 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://one-app:8080;
   }
-
+  location ~ /autologin {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+    }
+  location ~ /autologin {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location ~ /unilumin/autologin {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location ~ /oauth/login {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
   location /wp-login.php {
         proxy_set_header host $host:$server_port;
         proxy_set_header X-Real-IP      $remote_addr;
