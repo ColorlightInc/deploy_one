@@ -149,3 +149,6 @@ CustomOauth2:
     accessTokenURL: /oauth/token
     # 用于判断当前用户是否已登录
     userInfoURL: /webuser/getUserInfo
+jasypt:
+  encryptor:
+    bean: customStringEncryptor
