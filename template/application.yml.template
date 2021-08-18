@@ -161,3 +161,5 @@ CustomOauth2:
 jasypt:
   encryptor:
     bean: customStringEncryptor
+baiduMapAPI: "http://api.map.baidu.com/geoconv/v1/?coords="
+wordPressORG: "https://api.w.org"
