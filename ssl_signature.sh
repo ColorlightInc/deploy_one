@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Locate shell script path
-SCRIPT_DIR=$(dirname $0)
-if [ ${SCRIPT_DIR} != '.' ]
+SCRIPT_DIR=$(dirname "$0")
+if [ "${SCRIPT_DIR}" != '.' ]
 then
-  cd ${SCRIPT_DIR}
+  cd "${SCRIPT_DIR}"
 fi
-
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    mkdir "${SCRIPT_DIR}"
+fi
 CERTIFICATE_DIR=./template/certificate
 ADDRESS="$(cat config | grep _address | awk -F= '{print $2}' | sed -e 's/http:\/\///g' -e 's/https:\/\///g')"
 
