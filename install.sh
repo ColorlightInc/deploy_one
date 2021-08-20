@@ -258,7 +258,7 @@ _check_secret() {
 _check_certificate() {
   local openSSL=$(grep _open_ssl config | awk -F= '{print $2}')
   if [ "${openSSL}" == "true" ]; then
-    if [ ! -e "${TEMPLATE_DIR}/certificate/fullchain.pem" ] -o [ ! -e "${TEMPLATE_DIR}/certificate/privkey.pem" ]; then
+    if [ ! -e "${TEMPLATE_DIR}/certificate/fullchain.pem" ] || [ ! -e "${TEMPLATE_DIR}/certificate/privkey.pem" ]; then
       _error "未找到证书,请将证书放在[%s]目录,或者通过命令 %s 自签证书后再运行安装脚本!" "${TEMPLATE_DIR}/certificate" "bash ssl_signature.sh [host/ip]"
     fi
   fi
