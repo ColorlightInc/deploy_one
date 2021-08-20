@@ -255,6 +255,14 @@ _check_secret() {
   fi
   chmod 400 "${SECRET_FILE}" && chown root:root "${SECRET_FILE}"
 }
+_check_certificate() {
+  local openSSL=$(grep _open_ssl config | awk -F= '{print $2}')
+  if [ "${openSSL}" == "true" ]; then
+    if [ ! -e "${TEMPLATE_DIR}/certificate/fullchain.pem" ] -o [ ! -e "${TEMPLATE_DIR}/certificate/privkey.pem" ]; then
+      _error "未找到证书,请将证书放在[%s]目录,或者通过命令 %s 自签证书后再运行安装脚本!" "${TEMPLATE_DIR}/certificate" "bash ssl_signature.sh [host/ip]"
+    fi
+  fi
+}
 _format_compose_file() {
   _one_app_tag=$(grep -m 1 _one_app config | awk -F= '{print $2}')
   _one_nginx_tag=$(grep -m 1 _one_nginx config | awk -F= '{print $2}')
@@ -306,6 +314,7 @@ before_start_services() {
   _check_and_install_docker_env
   _check_and_create_app_users
   _check_secret
+  _check_certificate
 
   if [ "$(_is_first_deploy)" ]; then
     _init_mysql_data "colorlightwzg/one-mysql:$(grep -m 1 _one_mysql config | awk -F= '{print $2}')" "${MYSQL_DATA_DOCKER_VOLUME}"

@@ -6,10 +6,11 @@ if [ "${SCRIPT_DIR}" != '.' ]
 then
   cd "${SCRIPT_DIR}"
 fi
-if [ ! -d "${SCRIPT_DIR}" ]; then
-    mkdir "${SCRIPT_DIR}"
-fi
+
 CERTIFICATE_DIR=./template/certificate
+if [ ! -d "${CERTIFICATE_DIR}" ]; then
+    mkdir "${CERTIFICATE_DIR}"
+fi
 ADDRESS="$(cat config | grep _address | awk -F= '{print $2}' | sed -e 's/http:\/\///g' -e 's/https:\/\///g')"
 
 cd $CERTIFICATE_DIR
