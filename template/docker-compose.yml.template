@@ -23,6 +23,7 @@ services:
     #  - mysql-variables.env
     environment:
       MYSQL_DATABASE: spring
+      MYSQL_HISTFILE: /dev/null
     volumes:
       - one_db_data:/var/lib/mysql
       - ./mysql/conf:/etc/mysql/conf.d
