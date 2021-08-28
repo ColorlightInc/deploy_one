@@ -160,8 +160,9 @@ _init_mysql_data() {
 
   #after init mysql data
   _info "%s" "Clear init-data container."
-  docker network rm one-nw >/dev/null 2>&1
+
   docker rm -f init-data >/dev/null 2>&1
+  docker network rm one-nw >/dev/null 2>&1
   chown -R ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} ${VOLUME_DIR}/clt_deploy_one_db_data/_data >/dev/null 2>&1
 
   #reset encode password
@@ -335,6 +336,10 @@ start_services() {
 after_start_services() {
   _info "%s" "正在检查初始数据..."
   sleep 5
+
+  clt_one_nw=$(docker network ls -q -f NAME=clt_deploy_one-nw)
+  sed -e 's/br-clt_one_nw/br-'${clt_one_nw}'/g' ${TEMPLATE_DIR}/nftables.conf > /etc/sysconfig/nftables.conf
+  nft -f /etc/sysconfig/nftables.conf
 
   local enc_mysql_password=$(_get_env "${OUTPUT_DIR}/.env" "MYSQL_PASSWORD") \
   && enc_mysql_password=${enc_mysql_password#*ENC(} && enc_mysql_password=${enc_mysql_password%*)}
