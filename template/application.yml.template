@@ -56,6 +56,8 @@ clt:
     cc: ${spring.mail.username}
     default-title: Colorlight device alarm
     default-string-context: 您的盒子上报数据出现异常，请检查！
+  verifyCode:
+    enable: false
 authentication:
   # 双因子认证密钥发行商
   2faSecretIssuer: ${_2FA_KEY}

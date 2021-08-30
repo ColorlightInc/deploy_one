@@ -8,9 +8,9 @@ _nginx_allow_cidr=172.31.0.0/16
 
 #docker services image version
 #docker镜像版本配置
-_one_app=unismart0818
-_one_nginx=unismart0823
-_one_redis=unismart0719
+_one_app=unismart0828
+_one_nginx=unismart0828
+_one_redis=unismart0828
 _one_ws=unismart
 _one_zk=unismart
 _one_mysql=unismart3
