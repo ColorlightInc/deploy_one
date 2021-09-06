@@ -72,6 +72,8 @@ server:
   servlet:
     session:
       timeout: 1800s
+      cookie:
+        secure: true
   compression:
     enabled: true
     mime-types: application/json
