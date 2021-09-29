@@ -15,6 +15,7 @@ SECRET_FILE_MD5=${SECRET_ROOT}/clt.md5
 CCLOUD_SQL_INIT_JOB_IMAGE=colorlightwzg/ccloud-sql-init-job:latest
 #JASYPT_ENCODER_IMAGE=colorlightwzg/jasypt-encoder:2.1.1
 AES_CIPHER_IMAGE=colorlightwzg/aes-cipher:v1
+SHAMIR_SECRET_SHARING_IMAGE=colorlightwzg/shamir:v1.0
 #dirs
 VOLUME_DIR=/var/lib/docker/volumes
 CURR_PATH=$(pwd)
@@ -219,13 +220,30 @@ _format_app_config() {
   chmod 600 "${OUTPUT_DIR}/nginx/myconf.conf"
   chown ${COLORLIGHT_USER_UID}:${COLORLIGHT_GROUP_GID} "${OUTPUT_DIR}/nginx/myconf.conf"
 }
+_shamir_join() {
+  s_dir=$1
+  s_name=$2
+  shift 2
+  docker run --rm -v "${s_dir}":/out "${SHAMIR_SECRET_SHARING_IMAGE}" "join" "$s_name" "$@"
+}
+_merge_parts() {
+  local secret_filename="${SECRET_FILE##*/}"
 
-#注意！如果第一次部署失败，这个地方不会复原，需要手动改app配置模板的数据库密码
+  for p in $(ls "${SECRET_ROOT}" | egrep -w "${secret_filename}_[0-9]"); do
+     parts+=("$p")
+  done
+  if [ ${#parts[@]} == 0 ]; then
+    _error "未找到密钥文件[%s]" "${SECRET_FILE}_*"
+  fi
+  _shamir_join "${SECRET_ROOT}" "${secret_filename}" "${parts[@]}"
+  chmod 400 "${SECRET_FILE}" && chown root:root "${SECRET_FILE}"
+}
 
 _check_secret() {
   if [ -e "${SECRET_FILE_MD5}" ]; then
     local check_md5=1
   fi
+  _merge_parts
   if [ -z "${IDENTITY_FILE}" ]; then
     IDENTITY_FILE="${SECRET_FILE}"
   fi
@@ -359,6 +377,7 @@ after_start_services() {
 
   rm "${OUTPUT_DIR}/docker-compose.yml"
   rm "${OUTPUT_DIR}/.secret"
+  rm "${SECRET_FILE}"
 }
 MAIN() {
   before_start_services && \
