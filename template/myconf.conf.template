@@ -1,0 +1,102 @@
+server {
+  listen 8000;
+  listen 8443;
+  server_name AAAA;
+
+  gzip on;
+  gzip_comp_level 6;
+  gzip_types text/css application/javascript application/x-javascript application/rss+xml application/json;
+  gzip_disable    "MSIE [1-6]\.";
+
+  client_max_body_size 2048M;
+  client_body_buffer_size 8k;
+
+  add_header X-Frame-Options SAMEORIGIN;
+  proxy_cookie_path / "/; httponly";
+
+  location ~ .*.(svn|Git|cvs) {
+        deny all;
+    }
+
+  location / {
+        index  index.html index.htm index.php;
+        root /var/www/html;
+        try_files $uri $uri/ /index.html;
+    }
+
+  location ~ /wp-json {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location ~ /autologin {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location ~ /unilumin/autologin {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location ~ /oauth/login {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  location /wp-login.php {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  #天气服务器转发
+  location ~ /api/weather {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://backup.lednets.com:3000;
+  }
+  location  /wp-content/uploads/ {
+        alias /usr/share/nginx/html/backup/wp-content/uploads/;
+  }
+  location /wp-content/ {
+	    alias /usr/share/nginx/html/backup/wp-content/uploads/;
+  }
+  location /wp-content/uploads/screenshot/ {
+        proxy_set_header host $host:$server_port;
+        proxy_set_header X-Real-IP      $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://one-app:8080;
+  }
+  #前端websocket
+  location /ColorWebSocket  {
+       proxy_pass http://one-ws:8443/ColorWebSocket;
+       proxy_http_version 1.1;
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection "Upgrade";
+       proxy_set_header X-real-ip $remote_addr;
+       proxy_set_header X-Forwarded-For $remote_addr;
+       proxy_redirect off;
+  }
+  #盒子websocket
+  location /ColorWebSocket/websocket/chat  {
+       proxy_pass http://one-ws:8443/ColorWebSocket/websocket/chat;
+       proxy_http_version 1.1;
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection "Upgrade";
+       proxy_set_header X-real-ip $remote_addr;
+       proxy_set_header X-Forwarded-For $remote_addr;
+  }
+  #洲明
+  location /webuser/domain/ {
+       proxy_set_header host $host:$server_port;
+       proxy_set_header X-Real-IP      $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_pass http://one-app:8080;
+   }
+}

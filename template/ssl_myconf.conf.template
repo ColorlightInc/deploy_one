@@ -1,0 +1,213 @@
+#http
+server {
+    listen 172.109.0.2:8000;
+    server_name AAAA;
+    #rewrite ^(.*)$ https://${server_name}$1 permanent;
+    #华为红线nginx扫描4.1.1
+    return 301 https://$host$request_uri;
+}
+#https
+server {
+    #HW 2.6
+    listen 172.109.0.2:8443;
+    listen 172.109.0.2:4443;
+    server_name AAAA;
+
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/AAAA/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/AAAA/privkey.pem;
+    ssl_prefer_server_ciphers on;
+    #ssl_session_timeout 10m;
+    #HW 7.2
+    ssl_session_timeout 5m;
+    ssl_session_cache shared:SSL:1m;
+
+    #ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    #华为红线nginx扫描4.1.4，但是盒子需要1.1
+    ssl_protocols TLSv1.2;
+
+    #ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+    ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES256-SHA:HIGH:!MEDIUM:!LOW:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:@STRENGTH";
+
+    add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+    add_header X-Frame-Options SAMEORIGIN;
+
+    proxy_intercept_errors on;
+    error_page 497 301 https://$http_host$request_uri;
+    error_page 400 401 402 403 404 405 406 407 413 414 /4xx.html;
+    error_page 500 501 /50x.html;
+    resolver 114.114.114.114;
+    charset utf8;
+    tcp_nodelay on;
+
+    if ($request_method !~ ^(GET|HEAD|POST|OPTION|PUT|DELETE|PATCH)$) {
+            return 403;
+    }
+
+    server_tokens off;
+    limit_conn limitperip 10;
+
+    gzip on;
+    gzip_comp_level 6;
+    gzip_types text/css application/javascript application/x-javascript application/rss+xml application/json;
+    gzip_disable    "MSIE [1-6]\.";
+
+    client_max_body_size 2048M;
+    client_body_buffer_size 8k;
+
+    location ~ .*.(svn|Git|cvs) {
+          deny all;
+    }
+    location /4xx.html {
+        root /usr/share/nginx/html;
+    }
+    location /50x.html {
+        root /usr/share/nginx/html;
+    }
+    location / {
+          #HW 2.7
+          allow NGINX_ALLOW; deny all;
+          index  index.html index.htm index.php;
+          root /var/www/html;
+          try_files $uri $uri/ /index.html;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+    }
+    #http接口
+    location ~ /wp-json {
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
+          add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, OPTIONS, DELETE, PATCH';
+          add_header 'Access-Control-Allow-Origin' *;
+          add_header 'Access-Control-Expose-Headers' 'Location';
+          add_header Content-Type 'application/json; charset=utf-8';
+          add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+          add_header X-Frame-Options SAMEORIGIN;
+          proxy_cookie_path / "/; httponly";
+          proxy_read_timeout 600;
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
+    }
+    location ~ /autologin {
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+    }
+    location ~ /unilumin/autologin {
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+    }
+    location ~ /oauth/login {
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+    }
+    #登录
+    location /wp-login.php {
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
+          add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, OPTIONS, DELETE';
+          add_header 'Access-Control-Allow-Origin' *;
+          add_header 'Access-Control-Expose-Headers' 'Location';
+          add_header Content-Type 'application/json; charset=utf-8';
+          add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+          add_header X-Frame-Options SAMEORIGIN;
+          proxy_cookie_path / "/; httponly";
+          proxy_read_timeout 600;
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
+    }
+    #静态资源（截图）
+    location  /wp-content/uploads/ {
+          alias /usr/share/nginx/html/backup/wp-content/uploads/;
+    }
+    #静态资源（媒体）
+    location /wp-content/ {
+          alias /usr/share/nginx/html/backup/wp-content/uploads/;
+    }
+    #天气服务器转发
+    location ~ /api/weather {
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
+          add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, OPTIONS, DELETE';
+          add_header 'Access-Control-Allow-Origin' *;
+          add_header 'Access-Control-Expose-Headers' 'Location';
+          add_header Content-Type 'application/json; charset=utf-8';
+          add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+          add_header X-Frame-Options SAMEORIGIN;
+          proxy_cookie_path / "/; httponly";
+          proxy_read_timeout 600;
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://backup.lednets.com:3000;
+          allow NGINX_ALLOW; deny all;
+    }
+    #获取截图走app
+    location /wp-content/uploads/screenshot/ {
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
+          add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, OPTIONS, DELETE';
+          add_header 'Access-Control-Allow-Origin' *;
+          add_header 'Access-Control-Expose-Headers' 'Location';
+          add_header Content-Type 'application/json; charset=utf-8';
+          add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+          add_header X-Frame-Options SAMEORIGIN;
+          proxy_cookie_path / "/; httponly";
+          proxy_read_timeout 600;
+          proxy_set_header host $host:$server_port;
+          proxy_set_header X-Real-IP      $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://one-app:8080;
+          allow NGINX_ALLOW; deny all;
+    }
+    #洲明
+    location /webuser/domain/ {
+         add_header 'Access-Control-Allow-Credentials' 'true';
+         add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
+         add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, OPTIONS, DELETE';
+         add_header 'Access-Control-Allow-Origin' *;
+         add_header 'Access-Control-Expose-Headers' 'Location';
+         add_header Content-Type 'application/json; charset=utf-8';
+         add_header Content-Security-Policy "upgrade-insecure-requests;connect-src *";
+         add_header X-Frame-Options SAMEORIGIN;
+         proxy_read_timeout 600;
+         proxy_set_header host $host:$server_port;
+         proxy_set_header X-Real-IP      $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_pass http://one-app:8080;
+         allow NGINX_ALLOW; deny all;
+    }
+    #前端websocket
+    location /ColorWebSocket  {
+         proxy_redirect off;
+         proxy_pass http://one-ws:8443/ColorWebSocket;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection "Upgrade";
+         proxy_set_header X-real-ip $remote_addr;
+         proxy_set_header X-Forwarded-For $remote_addr;
+         allow NGINX_ALLOW; deny all;
+    }
+    #盒子websocket
+    location /ColorWebSocket/websocket/chat  {
+         proxy_redirect off;
+         proxy_pass http://one-ws:8443/ColorWebSocket/websocket/chat;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection "Upgrade";
+         proxy_set_header X-real-ip $remote_addr;
+         proxy_set_header X-Forwarded-For $remote_addr;
+         allow NGINX_ALLOW; deny all;
+    }
+}

@@ -1,0 +1,147 @@
+#docker-compose for ccloud in one host without swarm: can't use 'deploy' key
+version: '3.8'
+services:
+  one-zk:
+    user: 1000:1000
+    image: colorlightwzg/zookeeper:TAG
+    container_name: one-zk
+    privileged: true
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.3
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
+  one-mysql:
+    user: 3991:3991
+    image: colorlightwzg/one-mysql:TAG
+    container_name: one-mysql
+    #env_file:
+    #  - mysql-variables.env
+    environment:
+      MYSQL_DATABASE: spring
+      MYSQL_HISTFILE: /dev/null
+    volumes:
+      - one_db_data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.5
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
+  one-app:
+    user: 3991:3991
+    image: colorlightwzg/one-app:TAG
+    container_name: one-app
+    env_file:
+      - .env
+      - .secret
+    volumes:
+      - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads
+      - spring_log:/logs
+      - ./app:/var/lib/app
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.6
+    depends_on:
+      - one-zk
+      - one-mysql
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+  one-redis:
+    user: 3991:3991
+    image: colorlightwzg/one-redis:TAG
+    container_name: one-redis
+    env_file:
+      - .env
+      - .secret
+    volumes:
+      - spring_redis_log:/logs
+      - ./redis:/var/lib/redis
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.7
+    depends_on:
+      - one-zk
+    restart: always
+    environment:
+      PARAMS: -Xmx128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
+  one-ws:
+    user: 3991:3991
+    image: colorlightwzg/one-ws:TAG
+    container_name: one-ws
+    volumes:
+      - spring_ws_log:/logs
+      - ./ws:/var/lib/app
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.8
+    depends_on:
+      - one-zk
+      - one-app
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
+  one-nginx:
+    image: colorlightwzg/one-nginx:TAG
+    container_name: one-nginx
+    ports:
+      - 443:4443
+      - PORT_80:8000
+      - PORT_WS:8443
+    volumes:
+      - spring_uploads_data:/usr/share/nginx/html/backup/wp-content/uploads/
+      - nginx_log_data:/var/log/nginx/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
+      - ./nginx/myconf.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/letsencrypt:/etc/letsencrypt
+      - ./nginx/letsencrypt-backups:/var/lib/letsencrypt
+      - ./nginx/logrotate/nginx:/etc/logrotate.d/nginx
+    networks:
+      one-nw:
+        ipv4_address: 172.109.0.2
+    depends_on:
+      - one-zk
+      - one-app
+      - one-ws
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+networks:
+  one-nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.109.0.0/16
+          gateway: 172.109.0.1
+volumes:
+  one_db_data:
+  spring_uploads_data:
+  spring_log:
+  spring_redis_log:
+  spring_ws_log:
+  nginx_log_data:
